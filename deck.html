@@ -3,6 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <title>TALOS — Deck comercial</title>
 <!-- Deck TALOS. Navegar: ← →  ·  PDF: Imprimir (horizontal). Mismo lenguaje visual que la web. -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -87,8 +89,10 @@
     html,body{background:var(--bg)}
     .slide{height:100vh;page-break-after:always;-webkit-print-color-adjust:exact;print-color-adjust:exact}
     .glass{backdrop-filter:none;background:rgba(255,255,255,.06)}
+    /* los visores de PDF (iOS) no soportan background-clip:text → acento en color sólido */
+    .grad{-webkit-text-fill-color:#5FF0CE !important;color:#5FF0CE !important;background:none !important}
     .hint{display:none}
-    @page{size:landscape}
+    @page{size:landscape;margin:0}
   }
 </style>
 </head>
