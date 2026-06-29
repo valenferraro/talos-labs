@@ -3,3 +3,6 @@ node_modules/
 .playwright-mcp/
 *.log
 Thumbs.db
+~$*
+*.tmp
+_*.pdf
