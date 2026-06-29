@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TALOS — One-pager</title>
+<!-- One-pager TALOS · A4. PDF: Imprimir → Guardar como PDF (vertical). -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Archivo+Black&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#070912; --text:#F4F6FF; --muted:#99A2C0;
+    --g1:#34E2B0; --g2:#22D3EE; --g3:#6366F1; --g4:#A855F7;
+    --glassbg:linear-gradient(135deg,rgba(255,255,255,.08),rgba(255,255,255,.02));
+    --glassbd:1px solid rgba(255,255,255,.13);
+    --display:'Archivo Black',Impact,sans-serif; --serif:'Cinzel',serif; --sans:'Inter',system-ui,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:#04050c;font-family:var(--sans);color:var(--text);padding:24px;display:flex;justify-content:center}
+  .sheet{position:relative;overflow:hidden;width:210mm;min-height:297mm;padding:15mm 14mm;border-radius:4px;
+    background:radial-gradient(45vw 35vw at 100% 0%,rgba(99,102,241,.20),transparent 55%),radial-gradient(45vw 35vw at 0% 100%,rgba(168,85,247,.18),transparent 55%),var(--bg);
+    box-shadow:0 12px 60px rgba(0,0,0,.55)}
+  .orb{position:absolute;border-radius:50%;filter:blur(60px);opacity:.4;z-index:-1;background:conic-gradient(from 90deg,var(--g1),var(--g3),var(--g4),var(--g1))}
+  .grad{background:linear-gradient(100deg,#5FF0CE,#9DB8FF 50%,#C9A4FF);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .glass{background:var(--glassbg);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:var(--glassbd);border-radius:14px;box-shadow:inset 0 1px 0 rgba(255,255,255,.16)}
+  svg.ic{stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+
+  .top{display:flex;justify-content:space-between;align-items:center}
+  .brand{display:flex;align-items:center;gap:10px;font-family:var(--serif);font-weight:700;font-size:21px;letter-spacing:3px}
+  .brand img{height:32px;width:auto;display:block}
+  .minitag{font-size:10.5px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted)}
+
+  .hero{margin-top:26px}
+  .eyebrow{display:inline-block;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--g1);padding:5px 13px;border-radius:100px;background:var(--glassbg);border:var(--glassbd)}
+  h1{font-family:var(--display);font-size:38px;line-height:1.05;letter-spacing:-1px;text-transform:uppercase;margin-top:13px}
+  .sub{font-size:14px;color:var(--muted);margin-top:13px;line-height:1.55;max-width:94%;font-weight:450}
+
+  .section{margin-top:24px}
+  .label{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:11px}
+  .row3{display:flex;gap:10px}
+  .mini{flex:1;padding:13px}
+  .mini .ic{width:22px;height:22px;color:var(--g1);margin-bottom:8px}
+  .mini b{display:block;font-size:13px;font-weight:700;margin-bottom:4px}
+  .mini span{font-size:11px;color:var(--muted);line-height:1.4}
+
+  .steps{display:flex;gap:10px}
+  .step{flex:1;padding:14px}
+  .step .n{font-size:10px;font-weight:800;letter-spacing:.5px;color:var(--g1)}
+  .step h3{font-size:14.5px;font-weight:700;margin:6px 0 4px}
+  .step p{font-size:11px;color:var(--muted);line-height:1.4}
+  .step .tag{font-size:10.5px;font-weight:800;margin-top:8px;display:inline-block}
+
+  .case{margin-top:24px;padding:18px 20px;display:flex;gap:20px;align-items:center;
+    background:linear-gradient(135deg,rgba(52,226,176,.10),rgba(168,85,247,.10));border:var(--glassbd);border-radius:16px}
+  .case .txt{flex:1.5}
+  .case .pill{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--g1);border:var(--glassbd);padding:5px 11px;border-radius:100px;margin-bottom:9px}
+  .case h3{font-family:var(--display);font-size:19px;line-height:1.12;letter-spacing:-.5px;text-transform:uppercase}
+  .case p{font-size:11.5px;color:var(--muted);line-height:1.5;margin-top:8px}
+  .stats{flex:1;display:flex;flex-direction:column;gap:7px}
+  .stat{padding:8px 12px}
+  .stat .v{font-family:var(--display);font-size:18px;line-height:1.05}
+  .stat .k{font-size:10px;color:var(--muted);margin-top:2px}
+
+  .cta{margin-top:22px;padding:22px;text-align:center;border-radius:16px;background:linear-gradient(135deg,rgba(99,102,241,.20),rgba(168,85,247,.16));border:1px solid rgba(124,150,255,.34)}
+  .cta .k{font-size:10.5px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--g1)}
+  .cta h2{font-family:var(--display);font-size:23px;margin:8px 0 7px;line-height:1.12;text-transform:uppercase}
+  .cta p{font-size:12px;color:#CDD2E6;line-height:1.5;max-width:86%;margin:0 auto 14px}
+  .btn{font-weight:800;font-size:14px;padding:13px 26px;border-radius:11px;text-decoration:none;display:inline-block;color:#04121A;background:linear-gradient(100deg,var(--g1),var(--g2));box-shadow:0 8px 26px rgba(34,211,238,.4)}
+
+  .foot{margin-top:15px;display:flex;justify-content:space-between;font-size:11px;color:var(--muted);font-weight:450}
+
+  @media print{
+    body{background:var(--bg);padding:0}
+    .sheet{box-shadow:none;width:100%;min-height:auto;border-radius:0;padding:12mm;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    .glass{backdrop-filter:none}
+    @page{size:A4;margin:0}
+  }
+</style>
+</head>
+<body>
+  <div class="sheet">
+    <div class="orb" style="width:360px;height:360px;top:-120px;right:-100px"></div>
+    <div class="orb" style="width:300px;height:300px;bottom:-110px;left:-90px;opacity:.3"></div>
+
+    <div class="top">
+      <div class="brand"><img src="assets/logo.png" alt="">TALOS</div>
+      <div class="minitag">Automatizaciones con IA</div>
+    </div>
+
+    <div class="hero">
+      <h1>Menos trabajo. <span class="grad">Más rentabilidad.</span></h1>
+      <p class="sub">Automatizamos las tareas repetitivas que te roban tiempo y plata. Tu equipo deja de copiar y pegar — y se enfoca en lo único que hace crecer el negocio: vender y atender mejor.</p>
+    </div>
+
+    <div class="section">
+      <div class="label">El problema · estás perdiendo tiempo en tareas que se pueden automatizar</div>
+      <div class="row3">
+        <div class="mini glass"><svg class="ic" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M3 9h18M8 21h8"/></svg><b>Trabajo manual</b><span>Copiar y pegar entre mil planillas de Excel y mover info entre sistemas.</span></div>
+        <div class="mini glass"><svg class="ic" viewBox="0 0 24 24"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4L3 21l1.1-5A8.4 8.4 0 1 1 21 11.5z"/></svg><b>Respuestas repetidas</b><span>El mismo mensaje contestado mil veces por WhatsApp, mail o teléfono.</span></div>
+        <div class="mini glass"><svg class="ic" viewBox="0 0 24 24"><path d="M12 9v4m0 4h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg><b>Errores y fugas</b><span>Cada paso manual es un error posible y una venta que se escapa.</span></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="label">Un empleado que trabaja 24/7</div>
+      <div class="row3">
+        <div class="mini glass"><svg class="ic" viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8M21 7v5m0-5h-5"/></svg><b>Más tiempo para crecer</b><span>Dejás lo repetitivo y expandís el negocio.</span></div>
+        <div class="mini glass"><svg class="ic" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.3 1 2.1h6c0-.8.4-1.6 1-2.1A7 7 0 0 0 12 2z"/><path d="M9 18h6M10 22h4"/></svg><b>Entiende y se adapta</b><span>Interpreta lo que le pedís, no es un programa rígido.</span></div>
+        <div class="mini glass"><svg class="ic" viewBox="0 0 24 24"><path d="M12 2 4 6v6c0 5 3.5 8 8 10 4.5-2 8-5 8-10V6l-8-4z"/><path d="m9 12 2 2 4-4"/></svg><b>Sin riesgos laborales</b><span>Sin cargas sociales, ausencias ni juicios. Rinde siempre.</span></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="label">Cómo trabajamos — en 3 pasos, sin riesgo</div>
+      <div class="steps">
+        <div class="step glass"><div class="n">PASO 01</div><h3>Diagnóstico</h3><p>Detectamos los procesos con mayor impacto y cuánto ahorrás.</p><span class="tag grad">Gratis →</span></div>
+        <div class="step glass"><div class="n">PASO 02</div><h3>Implementación</h3><p>Automatizaciones a medida de tus sistemas.</p><span class="tag grad">Inversión única</span></div>
+        <div class="step glass"><div class="n">PASO 03</div><h3>Mejora continua</h3><p>Monitoreo y nuevas automatizaciones mientras escalás.</p><span class="tag grad">Mantenimiento mensual</span></div>
+      </div>
+    </div>
+
+    <div class="case">
+      <div class="txt">
+        <span class="pill">Caso real · cadena de +40 locales</span>
+        <h3>De horas de carga manual a minutos</h3>
+        <p>Una cadena de gastronomía cargaba sus promociones a mano, local por local, todos los meses. Automatizamos el proceso completo: hoy se ejecuta solo, en minutos y sin un solo error.</p>
+      </div>
+      <div class="stats">
+        <div class="stat glass"><div class="v grad">+40</div><div class="k">locales gestionados</div></div>
+        <div class="stat glass"><div class="v grad" style="font-size:14px">De horas a minutos</div><div class="k">tiempo de carga</div></div>
+        <div class="stat glass"><div class="v grad">0</div><div class="k">errores de carga</div></div>
+      </div>
+    </div>
+
+    <div class="cta">
+      <div class="k">Empezá sin riesgo</div>
+      <h2>Diagnóstico gratis. Te quedás con el plan igual.</h2>
+      <p>Te decimos exactamente qué automatizar y cuánto vas a ahorrar. Si no avanzás, te llevás el informe sin pagar nada. No tenés nada que perder.</p>
+      <div style="font-weight:800;font-size:15px;color:#fff">Escribinos por <span class="grad">WhatsApp</span></div>
+    </div>
+
+    <div class="foot">
+      <span>TALOS — Automatización de procesos con IA</span>
+      <span>Escribinos por WhatsApp</span>
+    </div>
+
+  </div>
+</body>
+</html>

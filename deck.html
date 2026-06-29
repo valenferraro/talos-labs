@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TALOS — Deck comercial</title>
+<!-- Deck TALOS. Navegar: ← →  ·  PDF: Imprimir (horizontal). Mismo lenguaje visual que la web. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Archivo+Black&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#070912; --text:#F4F6FF; --muted:#99A2C0;
+    --g1:#34E2B0; --g2:#22D3EE; --g3:#6366F1; --g4:#A855F7;
+    --glassbg:linear-gradient(135deg,rgba(255,255,255,.08),rgba(255,255,255,.02));
+    --glassbd:1px solid rgba(255,255,255,.13);
+    --display:'Archivo Black',Impact,sans-serif; --serif:'Cinzel',serif; --sans:'Inter',system-ui,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{background:#04050c}
+  body{font-family:var(--sans);color:var(--text);scroll-snap-type:y mandatory;overflow-y:scroll;scroll-behavior:smooth}
+  .slide{width:100vw;height:100vh;scroll-snap-align:start;display:flex;flex-direction:column;justify-content:center;padding:8vh 9vw;position:relative;overflow:hidden;
+    background:radial-gradient(48vw 48vw at 88% 8%,rgba(99,102,241,.18),transparent 60%),radial-gradient(42vw 42vw at 6% 96%,rgba(168,85,247,.16),transparent 60%),var(--bg);
+    border-bottom:1px solid #000}
+  .grad{background:linear-gradient(100deg,#5FF0CE,#9DB8FF 50%,#C9A4FF);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .glass{background:var(--glassbg);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:var(--glassbd);border-radius:18px;box-shadow:0 10px 40px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.16)}
+  svg.ic{stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+  .eyebrow,.pill,.btn,.eqbox{align-self:flex-start}
+  .eyebrow{display:inline-block;font-size:12px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--g1);padding:7px 15px;border-radius:100px;background:var(--glassbg);border:var(--glassbd);margin-bottom:22px}
+  h1{font-family:var(--display);font-size:clamp(32px,5vw,64px);line-height:1.04;letter-spacing:-1.5px;text-transform:uppercase;max-width:17ch}
+  h2{font-family:var(--display);font-size:clamp(26px,3.7vw,48px);line-height:1.07;letter-spacing:-1px;text-transform:uppercase;max-width:21ch}
+  .sub{font-size:clamp(15px,1.45vw,20px);margin-top:22px;line-height:1.6;max-width:58ch;font-weight:500;color:#CCD2E6}
+
+  .brandbar{position:absolute;top:5vh;left:9vw;display:flex;align-items:center;gap:11px;font-family:var(--serif);font-weight:700;font-size:20px;letter-spacing:3px;z-index:3}
+  .brandbar img{height:34px;width:auto;display:block}
+  .pagenum{position:absolute;bottom:5vh;right:9vw;font-size:12px;font-weight:600;color:var(--muted);z-index:3}
+  .footnote{position:absolute;bottom:5vh;left:9vw;font-size:12px;font-weight:450;color:var(--muted);z-index:3}
+
+  .grid{display:grid;gap:16px;margin-top:40px}
+  .g2{grid-template-columns:repeat(2,1fr)} .g3{grid-template-columns:repeat(3,1fr)} .g4{grid-template-columns:repeat(4,1fr)}
+  .card{padding:24px}
+  .card .ic{width:30px;height:30px;color:var(--g1);margin-bottom:14px}
+  .card .n{font-size:13px;font-weight:800;letter-spacing:1px;color:var(--g1)}
+  .card h3{font-size:19px;font-weight:700;margin:10px 0 8px;letter-spacing:-.3px}
+  .card p{font-size:13.5px;line-height:1.55;color:var(--muted)}
+
+  .steps{display:flex;gap:16px;margin-top:42px}
+  .stp{flex:1;padding:26px 22px}
+  .stp .ic{width:30px;height:30px;color:var(--g1);margin-bottom:12px}
+  .stp .n{font-size:12px;font-weight:800;letter-spacing:1px;color:var(--g1)}
+  .stp h3{font-size:19px;font-weight:700;margin:8px 0 8px}
+  .stp p{font-size:13.5px;line-height:1.55;color:var(--muted)}
+  .stp .price{font-size:13px;font-weight:800;margin-top:16px;padding-top:14px;border-top:1px solid rgba(255,255,255,.12)}
+
+  .split{display:grid;grid-template-columns:1fr 1fr;gap:42px;align-items:center;margin-top:10px}
+  .statue-wrap{position:relative;display:flex;justify-content:center;align-items:center}
+  .statue-wrap .haze{position:absolute;width:60%;height:60%;border-radius:50%;filter:blur(60px);opacity:.5;z-index:0}
+  .statue-wrap img{position:relative;z-index:1;max-height:62vh;max-width:100%;filter:drop-shadow(0 30px 50px rgba(0,0,0,.5))}
+  .pill{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;border-radius:100px;padding:7px 15px;margin-bottom:18px;background:var(--glassbg);border:var(--glassbd);color:var(--g1)}
+  .statrow{display:flex;gap:14px;margin-top:26px}
+  .stat{flex:1;padding:16px 18px}
+  .stat .v{font-family:var(--display);font-size:26px;line-height:1.05}
+  .stat .k{font-size:11.5px;color:var(--muted);margin-top:6px}
+
+  .eqbox{margin-top:30px;padding:24px 30px}
+  .eqlabel{font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--g1);margin-bottom:12px}
+  .eqfrac{text-align:center}
+  .eqtop,.eqbot{font-family:var(--display);font-size:clamp(15px,1.8vw,22px);letter-spacing:-.3px;padding:7px 4px;text-transform:uppercase}
+  .eqbar{height:3px;border-radius:3px;background:linear-gradient(100deg,var(--g1),var(--g3),var(--g4))}
+
+  .vs{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:38px}
+  .vsbox{padding:26px}
+  .vsbox.good{background:linear-gradient(135deg,rgba(52,226,176,.12),rgba(168,85,247,.12));border:1px solid rgba(124,150,255,.4)}
+  .vsbox h4{font-size:14px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:16px}
+  .vsbox.bad h4{color:var(--muted)} .vsbox.good h4{color:var(--g1)}
+  .vsbox li{list-style:none;font-size:14.5px;padding:8px 0 8px 26px;position:relative;line-height:1.45;font-weight:450;color:#D6DAEC}
+  .vsbox li:before{position:absolute;left:0;top:8px;font-weight:800}
+  .vsbox.bad li{color:var(--muted)} .vsbox.bad li:before{content:"✕";color:#5C6280}
+  .vsbox.good li:before{content:"✓";color:var(--g1)}
+
+  .btn{font-weight:800;font-size:17px;padding:17px 32px;border-radius:13px;text-decoration:none;display:inline-block;margin-top:28px;color:#04121A;background:linear-gradient(100deg,var(--g1),var(--g2));box-shadow:0 10px 36px rgba(34,211,238,.4)}
+  .orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:.5;z-index:-1;background:conic-gradient(from 90deg,var(--g1),var(--g3),var(--g4),var(--g1))}
+  .cover-logo{height:90px;width:auto;margin-bottom:26px}
+  .hint{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);font-size:11px;font-weight:500;color:#566;z-index:99}
+
+  @media print{
+    html,body{background:var(--bg)}
+    .slide{height:100vh;page-break-after:always;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    .glass{backdrop-filter:none;background:rgba(255,255,255,.06)}
+    .hint{display:none}
+    @page{size:landscape}
+  }
+</style>
+</head>
+<body>
+
+<!-- 1 · COVER -->
+<section class="slide" style="justify-content:center;align-items:flex-start">
+  <div class="orb" style="width:560px;height:560px;top:-130px;right:-110px"></div>
+  <div style="display:flex;align-items:center;gap:16px;margin-bottom:26px">
+    <img src="assets/logo.png" alt="" style="height:84px;width:auto">
+    <span style="font-family:var(--serif);font-weight:700;font-size:46px;letter-spacing:7px">TALOS</span>
+  </div>
+  <span class="eyebrow">Automatizaciones con IA</span>
+  <h1>Menos trabajo.<br><span class="grad">Más rentabilidad.</span></h1>
+  <p class="sub">Automatizamos las tareas repetitivas que te roban tiempo y dinero para que puedas enfocarte en hacer crecer tu negocio.</p>
+  <div class="footnote">TALOS · Propuesta comercial</div>
+  <div class="pagenum">01 / 10</div>
+</section>
+
+<!-- 2 · PROBLEMA -->
+<section class="slide">
+  <span class="eyebrow">El problema</span>
+  <h2>Estás <span class="grad">perdiendo tiempo</span> en tareas que se pueden <span class="grad">automatizar.</span></h2>
+  <div class="grid g3">
+    <div class="card glass"><svg class="ic" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M3 9h18M8 21h8"/></svg><h3>Trabajo manual</h3><p>Cargar datos, copiar y pegar entre mil planillas de Excel, mover info de un sistema a otro. Horas que se evaporan todos los días.</p></div>
+    <div class="card glass"><svg class="ic" viewBox="0 0 24 24"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4L3 21l1.1-5A8.4 8.4 0 1 1 21 11.5z"/></svg><h3>Respuestas repetidas</h3><p>El mismo mensaje contestado mil veces por WhatsApp, mail o teléfono.</p></div>
+    <div class="card glass"><svg class="ic" viewBox="0 0 24 24"><path d="M12 9v4m0 4h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg><h3>Errores y fugas</h3><p>Cada paso manual es un error posible y una venta que se va a la competencia.</p></div>
+  </div>
+  <div class="pagenum">02 / 10</div>
+</section>
+
+<!-- 3 · SOLUCIÓN -->
+<section class="slide">
+  <div class="orb" style="width:440px;height:440px;bottom:-150px;left:-110px;opacity:.35"></div>
+  <div class="split">
+    <div>
+      <span class="eyebrow">La solución</span>
+      <h2>Que un <span class="grad">titán</span> haga el trabajo por vos.</h2>
+      <p class="sub">No instalamos un bot genérico. Automatizamos tus procesos reales, integrados a las herramientas que ya usás. Con control, sin riesgos y con resultados que se miden.</p>
+      <p class="sub" style="margin-top:14px;color:#fff;font-weight:600">Menos dolores de cabeza, más tiempo para crecer tu negocio.</p>
+    </div>
+    <div class="statue-wrap"><div class="haze" style="background:var(--g4)"></div><img src="assets/zeus-cut.png" alt="Estatua trabajando en laptop"></div>
+  </div>
+  <div class="pagenum">03 / 10</div>
+</section>
+
+<!-- 4 · UN EMPLEADO 24/7 -->
+<section class="slide">
+  <span class="eyebrow">Lo que ganás</span>
+  <h2>Un empleado que <span class="grad">trabaja 24/7.</span></h2>
+  <div class="grid g4">
+    <div class="card glass"><svg class="ic" viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8M21 7v5m0-5h-5"/></svg><h3>Más tiempo para crecer</h3><p>Dejás lo repetitivo y te enfocás en expandir el negocio.</p></div>
+    <div class="card glass"><svg class="ic" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><h3>Cero errores</h3><p>Procesos exactos, siempre igual. Sin equivocaciones que cuestan plata.</p></div>
+    <div class="card glass"><svg class="ic" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.3 1 2.1h6c0-.8.4-1.6 1-2.1A7 7 0 0 0 12 2z"/><path d="M9 18h6M10 22h4"/></svg><h3>Entiende y se adapta</h3><p>No es un programa rígido: interpreta lo que le pedís y resuelve según el contexto.</p></div>
+    <div class="card glass"><svg class="ic" viewBox="0 0 24 24"><path d="M12 2 4 6v6c0 5 3.5 8 8 10 4.5-2 8-5 8-10V6l-8-4z"/><path d="m9 12 2 2 4-4"/></svg><h3>Sin riesgos laborales</h3><p>Sin cargas sociales, ausencias ni juicios. Rinde siempre.</p></div>
+  </div>
+  <div class="pagenum">04 / 10</div>
+</section>
+
+<!-- 5 · DEJÁSELO A LOS EXPERTOS -->
+<section class="slide">
+  <span class="eyebrow">El riesgo de hacerlo solo</span>
+  <h2>Dejáselo a los <span class="grad">expertos.</span></h2>
+  <div class="grid g4">
+    <div class="card glass"><svg class="ic" viewBox="0 0 24 24"><path d="M12 9v4m0 4h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg><h3>La IA se descontrola</h3><p>Alucina, inventa datos y le responde mal a tus clientes. Tu marca, expuesta.</p></div>
+    <div class="card glass"><svg class="ic" viewBox="0 0 24 24"><path d="M9.1 9a3 3 0 1 1 5.8 1c-.5 1.5-2.9 2-2.9 4M12 17h.01"/><circle cx="12" cy="12" r="9.5"/></svg><h3>No sabés por dónde empezar</h3><p>Probás mil herramientas, te perdés y nunca terminás de implementar nada.</p></div>
+    <div class="card glass"><svg class="ic" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 1 2.6 6.3M3 12v5m0-5h5"/></svg><h3>No sabés qué es lo último</h3><p>El campo cambia cada semana. Lo que aprendés hoy, mañana ya quedó viejo.</p></div>
+    <div class="card glass"><svg class="ic" viewBox="0 0 24 24"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg><h3>Prueba y error caro</h3><p>Perdés tiempo y plata aprendiendo a los golpes lo que un experto ya resolvió.</p></div>
+  </div>
+  <div class="pagenum">05 / 10</div>
+</section>
+
+<!-- 6 · CÓMO TRABAJAMOS -->
+<section class="slide">
+  <span class="eyebrow">Cómo trabajamos</span>
+  <h2>Tres pasos. Empezás <span class="grad">sin riesgo.</span></h2>
+  <div class="steps">
+    <div class="stp glass"><svg class="ic" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg><div class="n">PASO 01 — DIAGNÓSTICO</div><h3>Mapeamos tu operación</h3><p>Detectamos los procesos con mayor impacto y estimamos cuánto ahorrás.</p><div class="price grad">Gratis para arrancar</div></div>
+    <div class="stp glass"><svg class="ic" viewBox="0 0 24 24"><path d="M12 2 4 6v6c0 5 3.5 8 8 10 4.5-2 8-5 8-10V6l-8-4z"/><path d="m9 12 2 2 4-4"/></svg><div class="n">PASO 02 — IMPLEMENTACIÓN</div><h3>Lo construimos</h3><p>Automatizaciones a medida de tus sistemas.<br>&nbsp;</p><div class="price grad">Inversión única</div></div>
+    <div class="stp glass"><svg class="ic" viewBox="0 0 24 24"><path d="M3 12a9 9 0 0 1 9-9 9 9 0 0 1 6.3 2.6L21 8M21 3v5h-5M21 12a9 9 0 0 1-9 9 9 9 0 0 1-6.3-2.6L3 16m0 5v-5h5"/></svg><div class="n">PASO 03 — MEJORA CONTINUA</div><h3>Lo cuidamos</h3><p>Monitoreo y nuevas automatizaciones mientras escalás.</p><div class="price grad">Mantenimiento mensual</div></div>
+  </div>
+  <div class="pagenum">06 / 10</div>
+</section>
+
+<!-- 7 · QUÉ SE PUEDE AUTOMATIZAR -->
+<section class="slide">
+  <span class="eyebrow">Qué se puede automatizar</span>
+  <h2>Sea cual sea tu rubro, hay <span class="grad">horas para recuperar.</span></h2>
+  <div class="grid g3">
+    <div class="card glass"><h3>🍽️ Gastronomía / cadenas</h3><p>Carga de promos por local, reservas por WhatsApp, reportes entre sucursales.</p></div>
+    <div class="card glass"><h3>🏥 Salud / estética</h3><p>Agenda de turnos, recordatorios, consultas fuera de horario.</p></div>
+    <div class="card glass"><h3>🏠 Servicios / oficios</h3><p>Captura de llamadas perdidas, presupuestos y seguimiento de leads.</p></div>
+    <div class="card glass"><h3>🏢 Inmobiliarias</h3><p>Respuesta inmediata, calificación de leads, agenda de visitas.</p></div>
+    <div class="card glass"><h3>🛒 E-commerce / retail</h3><p>Recupero de carritos, estado de pedidos, post-venta.</p></div>
+    <div class="card glass"><h3>⚙️ Back-office (todos)</h3><p>Pasar datos entre sistemas, reportes y conciliaciones.</p></div>
+  </div>
+  <div class="pagenum">07 / 10</div>
+</section>
+
+<!-- 8 · CASO REAL -->
+<section class="slide">
+  <div class="orb" style="width:420px;height:420px;top:-130px;right:-100px;opacity:.35"></div>
+  <div class="split">
+    <div class="statue-wrap"><div class="haze" style="background:var(--g1)"></div><img src="assets/statue-cut.png" alt="Estatua con halo neón"></div>
+    <div>
+      <span class="pill">Caso real · cadena de +40 locales</span>
+      <h2>De horas de carga manual a <span class="grad">minutos.</span></h2>
+      <p class="sub">Cargaban sus promociones a mano, local por local, todos los meses. Automatizamos el proceso completo de punta a punta. Hoy se ejecuta solo: el equipo dejó de copiar y pegar.</p>
+      <div class="statrow">
+        <div class="stat glass"><div class="v grad">+40</div><div class="k">locales gestionados</div></div>
+        <div class="stat glass"><div class="v grad" style="font-size:18px">De horas<br>a minutos</div><div class="k">tiempo de carga</div></div>
+        <div class="stat glass"><div class="v grad">0</div><div class="k">errores de carga</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="pagenum">08 / 10</div>
+</section>
+
+<!-- 9 · POR QUÉ TALOS -->
+<section class="slide">
+  <span class="eyebrow">Por qué TALOS</span>
+  <h2>No es "hablarle a un chat". Es <span class="grad">ingeniería de procesos.</span></h2>
+  <div class="vs">
+    <div class="vsbox bad glass"><h4>Un bot genérico</h4>
+      <li>Respuestas sueltas, sin contexto de tu negocio</li>
+      <li>No se integra a tus sistemas</li>
+      <li>Se rompe (o se descontrola) cuando se complica</li>
+      <li>Nadie responde cuando falla</li>
+    </div>
+    <div class="vsbox good"><h4 class="grad">TALOS</h4>
+      <li>Automatizaciones a medida de tu operación real</li>
+      <li>Integrado a las herramientas que ya usás</li>
+      <li>Con control y barreras de seguridad</li>
+      <li>Resultados medibles y soporte continuo</li>
+    </div>
+  </div>
+  <div class="pagenum">09 / 10</div>
+</section>
+
+<!-- 10 · OFERTA -->
+<section class="slide">
+  <div class="orb" style="width:560px;height:560px;bottom:-170px;right:-130px"></div>
+  <span class="eyebrow">Empezá sin riesgo</span>
+  <h1>Diagnóstico gratis.<br>Te quedás con el plan <span class="grad">igual.</span></h1>
+  <p class="sub">En una reunión te decimos exactamente qué automatizar y cuánto vas a ahorrar. Si no avanzás, te llevás el informe sin pagar nada. <strong style="color:#fff">No tenés nada que perder.</strong></p>
+  <div class="glass" style="align-self:flex-start;margin-top:28px;padding:16px 26px;font-weight:700;font-size:20px;border-radius:14px">Escribinos por <span class="grad">WhatsApp</span></div>
+  <div class="pagenum">10 / 10</div>
+</section>
+
+<div class="hint">← → para navegar · Imprimir (horizontal) para PDF</div>
+
+<script>
+  const slides=[...document.querySelectorAll('.slide')];let i=0;
+  function go(n){i=Math.max(0,Math.min(slides.length-1,n));slides[i].scrollIntoView({behavior:'smooth'});}
+  addEventListener('keydown',e=>{
+    if(e.key==='ArrowRight'||e.key==='ArrowDown'||e.key===' '){e.preventDefault();go(i+1);}
+    if(e.key==='ArrowLeft'||e.key==='ArrowUp'){e.preventDefault();go(i-1);}
+  });
+  const io=new IntersectionObserver(es=>es.forEach(en=>{if(en.isIntersecting)i=slides.indexOf(en.target);}),{threshold:.6});
+  slides.forEach(s=>io.observe(s));
+</script>
+</body>
+</html>

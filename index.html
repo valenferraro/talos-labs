@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TALOS — Automatizaciones con IA · Menos trabajo. Más rentabilidad.</title>
+<!--
+  Landing TALOS. Estética: neo-griega + liquid glass + copy Hormozi.
+  Media en /assets (video del anillo + estatuas recortadas).
+  Editar acento: variables --g1..--g4 en :root.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Archivo+Black&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#070912;
+    --bg2:#0A0C16;
+    --text:#F4F6FF;
+    --muted:#99A2C0;
+    --g1:#34E2B0;   /* verde neón (estatuas) */
+    --g2:#22D3EE;   /* cyan */
+    --g3:#6366F1;   /* índigo */
+    --g4:#A855F7;   /* violeta (zeus) */
+    --glassbg:linear-gradient(135deg,rgba(255,255,255,.08),rgba(255,255,255,.02));
+    --glassbd:1px solid rgba(255,255,255,.13);
+    --display:'Archivo Black',Impact,sans-serif;
+    --serif:'Cinzel',serif;          /* toque clásico griego para el logo */
+    --sans:'Inter',system-ui,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth;overflow-x:clip}
+  body{background:var(--bg);font-family:var(--sans);color:var(--text);overflow-x:clip;width:100%;max-width:100%}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 28px}
+  .grad{background:linear-gradient(100deg,var(--g1),var(--g3) 55%,var(--g4));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .glass{background:var(--glassbg);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:var(--glassbd);border-radius:20px;box-shadow:inset 0 1px 0 rgba(255,255,255,.16)}
+  svg.ic{stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+  section{position:relative}
+  .glow{position:absolute;border-radius:50%;filter:blur(80px);z-index:0;pointer-events:none;opacity:.5}
+
+  /* NAV */
+  nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(14px);background:rgba(7,9,18,.6);border-bottom:1px solid rgba(255,255,255,.07)}
+  .navin{display:flex;align-items:center;justify-content:space-between;height:68px}
+  .logo{font-family:var(--serif);font-weight:700;font-size:24px;letter-spacing:4px;display:flex;align-items:center;gap:11px}
+  .logo .mk-logo{height:40px;width:auto;display:block}
+  .nav-links{display:flex;gap:30px;font-size:14px;font-weight:500;color:var(--muted)}
+  .nav-links a:hover{color:var(--text)}
+  .btn{font-weight:700;font-size:14px;padding:12px 22px;border-radius:11px;color:#04121A;background:linear-gradient(100deg,var(--g1),var(--g2));box-shadow:0 8px 26px rgba(34,211,238,.35);display:inline-block;transition:transform .15s}
+  .btn:hover{transform:translateY(-2px)}
+  .btn-lg{font-size:16px;padding:16px 30px}
+
+  /* HERO */
+  .hero{padding:70px 0 90px}
+  .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:30px;align-items:center}
+  .eyebrow{display:inline-block;font-size:12px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--g1);padding:7px 15px;border-radius:100px;background:var(--glassbg);border:var(--glassbd);margin-bottom:22px}
+  h1{font-family:var(--display);font-size:clamp(38px,5.2vw,68px);line-height:1.03;letter-spacing:-1.5px;text-transform:uppercase}
+  .hero p.sub{font-size:clamp(16px,1.4vw,20px);color:var(--muted);margin:22px 0 30px;line-height:1.6;max-width:46ch}
+  .hero-cta{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+  .ghost{font-weight:600;font-size:15px;color:var(--text);padding:15px 20px}
+  .ghost:hover{color:var(--g1)}
+  .hero-media{position:relative;display:flex;justify-content:center;align-items:center;min-height:440px}
+  .hero-media .ring-glow{position:absolute;z-index:0;width:380px;height:380px;border-radius:50%;background:radial-gradient(circle,rgba(52,226,176,.35),transparent 65%);filter:blur(30px)}
+  /* screen: el negro del video se vuelve transparente y se funde con el fondo */
+  .hero-media video{position:relative;z-index:1;width:100%;max-width:560px;mix-blend-mode:screen;
+    -webkit-mask-image:radial-gradient(closest-side at 50% 47%,#000 70%,transparent 100%);
+            mask-image:radial-gradient(closest-side at 50% 47%,#000 70%,transparent 100%)}
+  /* gradiente más luminoso para el título del hero (que no se vea transparentoso) */
+  .hero h1 .grad{background:linear-gradient(100deg,#5FF0CE,#9DB8FF 50%,#C9A4FF);-webkit-background-clip:text;background-clip:text;color:transparent}
+
+  /* generic section heads */
+  .sec{padding:86px 0}
+  .kicker{font-size:12px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--g1);margin-bottom:16px}
+  h2{font-family:var(--display);font-size:clamp(28px,3.6vw,46px);line-height:1.08;letter-spacing:-1px;text-transform:uppercase;max-width:20ch}
+  .lead{font-size:clamp(15px,1.4vw,19px);color:var(--muted);margin-top:18px;line-height:1.6;max-width:62ch}
+
+  .grid{display:grid;gap:18px;margin-top:46px}
+  .g2{grid-template-columns:repeat(2,1fr)} .g3{grid-template-columns:repeat(3,1fr)} .g4{grid-template-columns:repeat(4,1fr)}
+  .card{padding:26px}
+  .card .ic{width:30px;height:30px;color:var(--g1);margin-bottom:14px}
+  .card .n{font-size:13px;font-weight:800;letter-spacing:1px;color:var(--g1)}
+  .card h3{font-size:20px;font-weight:700;margin:10px 0 8px;letter-spacing:-.3px}
+  .card p{font-size:14px;line-height:1.55;color:var(--muted)}
+
+  /* split sections with statue */
+  .split{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center}
+  .statue-wrap{position:relative;display:flex;justify-content:center;align-items:center;min-height:420px}
+  .statue-wrap .haze{position:absolute;width:340px;height:340px;border-radius:50%;filter:blur(60px);opacity:.55;z-index:0}
+  .statue-wrap img{position:relative;z-index:1;max-height:460px;max-width:100%;filter:drop-shadow(0 30px 50px rgba(0,0,0,.5))}
+
+  /* benefits */
+  .ben{padding:24px;text-align:left}
+  .ben .ic{width:32px;height:32px;color:var(--g1);margin-bottom:14px}
+  .ben b{display:block;font-size:17px;font-weight:700;margin-bottom:5px}
+  .ben span{font-size:13px;color:var(--muted);line-height:1.45}
+
+  /* steps */
+  .stp{padding:28px 24px}
+  .stp .ic{width:30px;height:30px;color:var(--g1);margin-bottom:12px}
+  .stp .n{font-size:12.5px;font-weight:800;letter-spacing:1px;color:var(--g1)}
+  .stp h3{font-size:20px;font-weight:700;margin:8px 0 8px}
+  .stp p{font-size:14px;line-height:1.55;color:var(--muted)}
+  .stp .price{font-size:13px;font-weight:800;margin-top:16px;padding-top:14px;border-top:1px solid rgba(255,255,255,.12)}
+
+  /* eq / case stats */
+  .pill{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;border-radius:100px;padding:7px 15px;margin-bottom:18px;background:var(--glassbg);border:var(--glassbd)}
+  .statbox{display:flex;flex-direction:column;gap:12px}
+  .statbox .s{padding:14px 18px}
+  .statbox .v{font-family:var(--display);font-size:30px;line-height:1}
+  .statbox .k{font-size:12px;color:var(--muted);margin-top:4px}
+
+  /* vs */
+  .vs{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:42px}
+  .vsbox{padding:28px}
+  .vsbox.good{background:linear-gradient(135deg,rgba(52,226,176,.12),rgba(168,85,247,.12));border:1px solid rgba(124,150,255,.4)}
+  .vsbox h4{font-size:14px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:16px}
+  .vsbox.bad h4{color:var(--muted)}
+  .vsbox li{list-style:none;font-size:15px;padding:8px 0 8px 26px;position:relative;line-height:1.45;font-weight:450;color:#D6DAEC}
+  .vsbox li:before{position:absolute;left:0;top:8px;font-weight:800}
+  .vsbox.bad li{color:var(--muted)} .vsbox.bad li:before{content:"✕";color:#5C6280}
+  .vsbox.good li:before{content:"✓";color:var(--g1)}
+
+  /* final CTA */
+  .final{text-align:center;padding:96px 0}
+  .final h2{margin:0 auto;max-width:24ch}
+  .final .lead{margin:20px auto 32px}
+
+  footer{border-top:1px solid rgba(255,255,255,.08);padding:34px 0;color:var(--muted);font-size:13px}
+  .footin{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px}
+
+  @media(max-width:880px){
+    .wrap{padding:0 22px}
+    .hero{padding:46px 0 64px}
+    .hero-grid,.split{grid-template-columns:1fr;gap:34px}
+    .hero-media{display:none}        /* el video tapa info en mobile → se oculta */
+    /* en mobile: mantenemos el acento gradiente en el título y aclaramos el párrafo */
+    .hero p.sub{max-width:none;color:#CCD2E6}
+    .sec{padding:60px 0}
+    .g3,.g4,.vs{grid-template-columns:1fr 1fr}
+    .nav-links{display:none}
+    .statue-wrap{min-height:340px}
+    .statue-wrap img{max-height:360px}
+    /* en mobile la estatua del caso va arriba del texto */
+    .split.case-real{display:flex;flex-direction:column}
+  }
+  @media(max-width:560px){
+    .wrap{padding:0 18px}
+    .navin{height:60px}
+    .logo{font-size:20px;letter-spacing:3px}
+    .btn{padding:11px 16px;font-size:13px}
+    h1{font-size:40px}
+    h2{font-size:27px}
+    .hero-cta{flex-direction:column;align-items:stretch;gap:10px}
+    .hero-cta .btn-lg{text-align:center}
+    .hero-cta .ghost{text-align:center;padding:12px}
+    .g3,.g4,.g2,.vs{grid-template-columns:1fr}
+    .card,.stp,.ben,.vsbox{padding:20px}
+    .statue-wrap img{max-height:300px}
+    .footin{flex-direction:column;text-align:center;gap:10px}
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="wrap navin">
+    <div class="logo"><img src="assets/logo.png" class="mk-logo" alt="">TALOS</div>
+    <div class="nav-links">
+      <a href="#problema">El problema</a>
+      <a href="#solucion">La solución</a>
+      <a href="#proceso">Cómo trabajamos</a>
+      <a href="#casos">Casos</a>
+    </div>
+    <a href="https://wa.me/5491134234481?text=Hola,%20quiero%20mi%20diagn%C3%B3stico%20gratis" target="_blank" rel="noopener" class="btn">Diagnóstico gratis</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="glow" style="width:620px;height:620px;background:var(--g4);top:-200px;left:-160px;opacity:.26"></div>
+  <div class="glow" style="width:520px;height:520px;background:var(--g1);bottom:-220px;right:-120px;opacity:.16"></div>
+  <div class="wrap hero-grid">
+    <div>
+      <span class="eyebrow">Automatizaciones con IA</span>
+      <h1>Menos trabajo.<br><span class="grad">Más rentabilidad.</span></h1>
+      <p class="sub">Automatizamos las tareas repetitivas que te roban tiempo y dinero para que puedas enfocarte en hacer crecer tu negocio.</p>
+      <div class="hero-cta">
+        <a href="https://wa.me/5491134234481?text=Hola,%20quiero%20mi%20diagn%C3%B3stico%20gratis" target="_blank" rel="noopener" class="btn btn-lg">Quiero mi diagnóstico →</a>
+        <a href="#solucion" class="ghost">Ver cómo funciona</a>
+      </div>
+    </div>
+    <div class="hero-media">
+      <div class="ring-glow"></div>
+      <video src="assets/hero-ring.mp4" autoplay muted loop playsinline></video>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEMA -->
+<section id="problema" class="sec">
+  <div class="wrap">
+    <div class="kicker">El problema</div>
+    <h2>Estás <span class="grad">perdiendo tiempo</span><br>en tareas que se pueden<br><span class="grad">automatizar.</span></h2>
+    <div class="grid g3">
+      <div class="card glass">
+        <svg class="ic" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M3 9h18M8 21h8"/></svg>
+        <h3>Trabajo manual</h3><p>Cargar datos, copiar y pegar entre mil planillas de Excel, mover info de un sistema a otro. Horas que se evaporan todos los días.</p></div>
+      <div class="card glass">
+        <svg class="ic" viewBox="0 0 24 24"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4L3 21l1.1-5A8.4 8.4 0 1 1 21 11.5z"/></svg>
+        <h3>Respuestas repetidas</h3><p>El mismo mensaje contestado mil veces por WhatsApp, mail o teléfono.</p></div>
+      <div class="card glass">
+        <svg class="ic" viewBox="0 0 24 24"><path d="M12 9v4m0 4h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg>
+        <h3>Errores y fugas</h3><p>Cada paso manual es un error posible y una venta que se va a la competencia.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- SOLUCIÓN (con estatua Zeus) -->
+<section id="solucion" class="sec">
+  <div class="glow" style="width:480px;height:480px;background:var(--g4);top:10%;right:-160px;opacity:.22"></div>
+  <div class="wrap split">
+    <div>
+      <div class="kicker">La solución</div>
+      <h2>Que un <span class="grad">titán</span> haga el trabajo por vos.</h2>
+      <p class="lead">No instalamos un bot genérico. Entendemos cómo trabajás y automatizamos tus procesos reales, integrados a las herramientas que ya usás. Con control, sin riesgos y con resultados que se miden.</p>
+      <p class="lead" style="margin-top:14px"><strong style="color:#fff">Menos dolores de cabeza, más tiempo para crecer tu negocio.</strong></p>
+      <a href="#proceso" class="btn" style="margin-top:26px">Cómo lo hacemos →</a>
+    </div>
+    <div class="statue-wrap">
+      <div class="haze" style="background:var(--g4)"></div>
+      <img src="assets/zeus-cut.png" alt="Estatua griega trabajando en una laptop">
+    </div>
+  </div>
+</section>
+
+<!-- BENEFICIOS -->
+<section class="sec">
+  <div class="wrap">
+    <div class="kicker">Lo que ganás</div>
+    <h2>Un empleado que <span class="grad">trabaja 24/7.</span></h2>
+    <div class="grid g4">
+      <div class="ben glass"><svg class="ic" viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8M21 7v5m0-5h-5"/></svg><b>Más tiempo para crecer</b><span>Dejás lo repetitivo y te enfocás en expandir el negocio.</span></div>
+      <div class="ben glass"><svg class="ic" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><b>Cero errores</b><span>Procesos exactos, siempre igual. Sin equivocaciones que cuestan plata.</span></div>
+      <div class="ben glass"><svg class="ic" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.3 1 2.1h6c0-.8.4-1.6 1-2.1A7 7 0 0 0 12 2z"/><path d="M9 18h6M10 22h4"/></svg><b>Entiende y se adapta</b><span>No es un programa rígido que hace siempre lo mismo: interpreta lo que le pedís y resuelve según el contexto.</span></div>
+      <div class="ben glass"><svg class="ic" viewBox="0 0 24 24"><path d="M12 2 4 6v6c0 5 3.5 8 8 10 4.5-2 8-5 8-10V6l-8-4z"/><path d="m9 12 2 2 4-4"/></svg><b>Sin riesgos laborales</b><span>Sin cargas sociales, ausencias ni juicios. Rinde siempre.</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- RIESGO DE HACERLO SOLO -->
+<section class="sec">
+  <div class="wrap">
+    <div class="kicker">El riesgo de hacerlo solo</div>
+    <h2>Dejáselo a los <span class="grad">expertos.</span></h2>
+    <div class="grid g4">
+      <div class="card glass"><svg class="ic" viewBox="0 0 24 24"><path d="M12 9v4m0 4h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg><h3>La IA se descontrola</h3><p>Alucina, inventa datos y le responde mal a tus clientes. Tu marca, expuesta.</p></div>
+      <div class="card glass"><svg class="ic" viewBox="0 0 24 24"><path d="M9.1 9a3 3 0 1 1 5.8 1c-.5 1.5-2.9 2-2.9 4M12 17h.01"/><circle cx="12" cy="12" r="9.5"/></svg><h3>No sabés por dónde empezar</h3><p>Probás mil herramientas, te perdés y nunca terminás de implementar nada.</p></div>
+      <div class="card glass"><svg class="ic" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 1 2.6 6.3M3 12v5m0-5h5"/></svg><h3>No sabés qué es lo último</h3><p>El campo cambia cada semana. Lo que aprendés hoy, mañana ya quedó viejo.</p></div>
+      <div class="card glass"><svg class="ic" viewBox="0 0 24 24"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg><h3>Prueba y error caro</h3><p>Perdés tiempo y plata aprendiendo a los golpes lo que un experto ya resolvió.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESO -->
+<section id="proceso" class="sec">
+  <div class="wrap">
+    <div class="kicker">Cómo trabajamos</div>
+    <h2>Tres pasos. Empezás <span class="grad">sin riesgo.</span></h2>
+    <div class="grid g3">
+      <div class="stp glass"><svg class="ic" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg><div class="n">PASO 01 — DIAGNÓSTICO</div><h3>Mapeamos tu operación</h3><p>Detectamos los procesos con mayor impacto y estimamos cuánto ahorrás.</p><div class="price grad">Gratis para arrancar</div></div>
+      <div class="stp glass"><svg class="ic" viewBox="0 0 24 24"><path d="M12 2 4 6v6c0 5 3.5 8 8 10 4.5-2 8-5 8-10V6l-8-4z"/><path d="m9 12 2 2 4-4"/></svg><div class="n">PASO 02 — IMPLEMENTACIÓN</div><h3>Lo construimos</h3><p>Automatizaciones a medida de tus sistemas.<br>&nbsp;</p><div class="price grad">Inversión única</div></div>
+      <div class="stp glass"><svg class="ic" viewBox="0 0 24 24"><path d="M3 12a9 9 0 0 1 9-9 9 9 0 0 1 6.3 2.6L21 8M21 3v5h-5M21 12a9 9 0 0 1-9 9 9 9 0 0 1-6.3-2.6L3 16m0 5v-5h5"/></svg><div class="n">PASO 03 — MEJORA CONTINUA</div><h3>Lo cuidamos</h3><p>Monitoreo y nuevas automatizaciones mientras escalás.</p><div class="price grad">Mantenimiento mensual</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CASOS DE USO -->
+<section id="casos" class="sec">
+  <div class="wrap">
+    <div class="kicker">Qué se puede automatizar</div>
+    <h2>Sea cual sea tu rubro, hay <span class="grad">horas para recuperar.</span></h2>
+    <div class="grid g3">
+      <div class="card glass"><h3>🍽️ Gastronomía / cadenas</h3><p>Carga de promos por local, reservas por WhatsApp, reportes entre sucursales.</p></div>
+      <div class="card glass"><h3>🏥 Salud / estética</h3><p>Agenda de turnos, recordatorios, consultas fuera de horario.</p></div>
+      <div class="card glass"><h3>🏠 Servicios / oficios</h3><p>Captura de llamadas perdidas, presupuestos y seguimiento de leads.</p></div>
+      <div class="card glass"><h3>🏢 Inmobiliarias</h3><p>Respuesta inmediata, calificación de leads, agenda de visitas.</p></div>
+      <div class="card glass"><h3>🛒 E-commerce / retail</h3><p>Recupero de carritos, estado de pedidos, post-venta.</p></div>
+      <div class="card glass"><h3>⚙️ Back-office (todos)</h3><p>Pasar datos entre sistemas, reportes y conciliaciones.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CASO REAL (con estatua de mármol) -->
+<section class="sec">
+  <div class="glow" style="width:460px;height:460px;background:var(--g1);top:0;left:-160px;opacity:.18"></div>
+  <div class="wrap split case-real">
+    <div class="statue-wrap">
+      <div class="haze" style="background:var(--g1)"></div>
+      <img src="assets/statue-cut.png" alt="Estatua de mármol con halo neón">
+    </div>
+    <div>
+      <span class="pill" style="color:var(--g1)">Caso real · cadena de +40 locales</span>
+      <h2>De horas de carga manual a <span class="grad">minutos.</span></h2>
+      <p class="lead">Una cadena de gastronomía cargaba sus promociones a mano, local por local, todos los meses. Automatizamos el proceso completo de punta a punta. Hoy se ejecuta solo: el equipo dejó de copiar y pegar.</p>
+      <div class="grid g3" style="margin-top:30px">
+        <div class="card glass" style="padding:18px"><div class="statbox"><div class="v grad">+40</div><div class="k">locales gestionados</div></div></div>
+        <div class="card glass" style="padding:18px"><div class="statbox"><div class="v grad" style="font-size:22px">De horas<br>a minutos</div><div class="k">tiempo de carga</div></div></div>
+        <div class="card glass" style="padding:18px"><div class="statbox"><div class="v grad">0</div><div class="k">errores de carga</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- POR QUÉ NOSOTROS -->
+<section class="sec">
+  <div class="wrap">
+    <div class="kicker">Por qué TALOS</div>
+    <h2>No es "hablarle a un chat". Es <span class="grad">ingeniería de procesos.</span></h2>
+    <div class="vs">
+      <div class="vsbox bad glass"><h4>Un bot genérico</h4>
+        <li>Respuestas sueltas, sin contexto de tu negocio</li>
+        <li>No se integra a tus sistemas</li>
+        <li>Se rompe (o se descontrola) cuando se complica</li>
+        <li>Nadie responde cuando falla</li>
+      </div>
+      <div class="vsbox good"><h4 class="grad">TALOS</h4>
+        <li>Automatizaciones a medida de tu operación real</li>
+        <li>Integrado a las herramientas que ya usás</li>
+        <li>Con control y barreras de seguridad</li>
+        <li>Resultados medibles y soporte continuo</li>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section id="contacto" class="sec final">
+  <div class="glow" style="width:620px;height:620px;background:var(--g3);top:50%;left:50%;transform:translate(-50%,-50%);opacity:.22"></div>
+  <div class="wrap">
+    <div class="kicker" style="text-align:center">Empezá sin riesgo</div>
+    <h2>Diagnóstico gratis.<br>Te quedás con el plan <span class="grad">igual.</span></h2>
+    <p class="lead">En una reunión te decimos exactamente qué automatizar y cuánto vas a ahorrar. Si no avanzás, te llevás el informe sin pagar nada. <strong style="color:#fff">No tenés nada que perder.</strong></p>
+    <a href="https://wa.me/5491134234481?text=Hola,%20quiero%20mi%20diagn%C3%B3stico%20gratis" target="_blank" rel="noopener" class="btn btn-lg">Quiero mi diagnóstico →</a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap footin">
+    <div class="logo" style="font-size:18px;letter-spacing:3px"><img src="assets/logo.png" class="mk-logo" style="height:28px" alt="">TALOS</div>
+    <div>Automatización de procesos con IA — LATAM</div>
+  </div>
+</footer>
+
+</body>
+</html>
