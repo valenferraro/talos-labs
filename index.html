@@ -169,12 +169,15 @@
   <div class="wrap navin">
     <div class="logo"><img src="assets/logo.png" class="mk-logo" alt="">TALOS</div>
     <div class="nav-links">
-      <a href="#problema">El problema</a>
-      <a href="#solucion">La solución</a>
-      <a href="#proceso">Cómo trabajamos</a>
-      <a href="#casos">Casos</a>
+      <a href="#problema" data-en='The problem'>El problema</a>
+      <a href="#solucion" data-en='The solution'>La solución</a>
+      <a href="#proceso" data-en='How we work'>Cómo trabajamos</a>
+      <a href="#casos" data-en='Use cases'>Casos</a>
     </div>
-    <a href="https://wa.me/5491134234481?text=Hola,%20quiero%20mi%20diagn%C3%B3stico%20gratis" target="_blank" rel="noopener" class="btn">Diagnóstico gratis</a>
+    <div style="display:flex;align-items:center;gap:14px">
+      <button id="langToggle" aria-label="Switch language" style="background:none;border:1px solid rgba(255,255,255,.25);color:var(--text);font-family:inherit;font-size:13px;font-weight:700;padding:7px 13px;border-radius:100px;cursor:pointer;letter-spacing:1px">EN</button>
+      <a href="https://wa.me/5491134234481?text=Hola,%20quiero%20mi%20diagn%C3%B3stico%20gratis" target="_blank" rel="noopener" class="btn" data-en='Free assessment'>Diagnóstico gratis</a>
+    </div>
   </div>
 </nav>
 
@@ -184,12 +187,12 @@
   <div class="glow" style="width:520px;height:520px;background:var(--g1);bottom:-220px;right:-120px;opacity:.16"></div>
   <div class="wrap hero-grid">
     <div>
-      <span class="eyebrow">Automatizaciones con IA</span>
-      <h1>Menos trabajo.<br><span class="grad">Más rentabilidad.</span></h1>
-      <p class="sub">Automatizamos las tareas repetitivas que te roban tiempo y dinero para que puedas enfocarte en hacer crecer tu negocio.</p>
+      <span class="eyebrow" data-en='AI Automations'>Automatizaciones con IA</span>
+      <h1 data-en='Less work.<br><span class="grad">More profit.</span>'>Menos trabajo.<br><span class="grad">Más rentabilidad.</span></h1>
+      <p class="sub" data-en='We automate the repetitive tasks that drain your time and money, so you can focus on growing your business.'>Automatizamos las tareas repetitivas que te roban tiempo y dinero para que puedas enfocarte en hacer crecer tu negocio.</p>
       <div class="hero-cta">
-        <a href="https://wa.me/5491134234481?text=Hola,%20quiero%20mi%20diagn%C3%B3stico%20gratis" target="_blank" rel="noopener" class="btn btn-lg">Quiero mi diagnóstico →</a>
-        <a href="#solucion" class="ghost">Ver cómo funciona</a>
+        <a href="https://wa.me/5491134234481?text=Hola,%20quiero%20mi%20diagn%C3%B3stico%20gratis" target="_blank" rel="noopener" class="btn btn-lg" data-en='Get my assessment →'>Quiero mi diagnóstico →</a>
+        <a href="#solucion" class="ghost" data-en='See how it works'>Ver cómo funciona</a>
       </div>
     </div>
     <div class="hero-media">
@@ -202,18 +205,18 @@
 <!-- PROBLEMA -->
 <section id="problema" class="sec">
   <div class="wrap">
-    <div class="kicker">El problema</div>
-    <h2>Estás <span class="grad">perdiendo tiempo</span><br>en tareas que se pueden<br><span class="grad">automatizar.</span></h2>
+    <div class="kicker" data-en='The problem'>El problema</div>
+    <h2 data-en='You are <span class="grad">wasting time</span><br>on tasks that can be<br><span class="grad">automated.</span>'>Estás <span class="grad">perdiendo tiempo</span><br>en tareas que se pueden<br><span class="grad">automatizar.</span></h2>
     <div class="grid g3">
       <div class="card glass">
         <svg class="ic" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M3 9h18M8 21h8"/></svg>
-        <h3>Trabajo manual</h3><p>Cargar datos, copiar y pegar entre mil planillas de Excel, mover info de un sistema a otro. Horas que se evaporan todos los días.</p></div>
+        <h3 data-en='Manual work'>Trabajo manual</h3><p data-en='Entering data, copying and pasting across a thousand Excel sheets, moving info from one system to another. Hours that vanish every day.'>Cargar datos, copiar y pegar entre mil planillas de Excel, mover info de un sistema a otro. Horas que se evaporan todos los días.</p></div>
       <div class="card glass">
         <svg class="ic" viewBox="0 0 24 24"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4L3 21l1.1-5A8.4 8.4 0 1 1 21 11.5z"/></svg>
-        <h3>Respuestas repetidas</h3><p>El mismo mensaje contestado mil veces por WhatsApp, mail o teléfono.</p></div>
+        <h3 data-en='Repetitive replies'>Respuestas repetidas</h3><p data-en='The same message answered a thousand times over WhatsApp, email or phone.'>El mismo mensaje contestado mil veces por WhatsApp, mail o teléfono.</p></div>
       <div class="card glass">
         <svg class="ic" viewBox="0 0 24 24"><path d="M12 9v4m0 4h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg>
-        <h3>Errores y fugas</h3><p>Cada paso manual es un error posible y una venta que se va a la competencia.</p></div>
+        <h3 data-en='Errors and leaks'>Errores y fugas</h3><p data-en='Every manual step is a possible error and a sale that goes to the competition.'>Cada paso manual es un error posible y una venta que se va a la competencia.</p></div>
     </div>
   </div>
 </section>
@@ -223,11 +226,11 @@
   <div class="glow" style="width:480px;height:480px;background:var(--g4);top:10%;right:-160px;opacity:.22"></div>
   <div class="wrap split">
     <div>
-      <div class="kicker">La solución</div>
-      <h2>Que un <span class="grad">titán</span> haga el trabajo por vos.</h2>
-      <p class="lead">No instalamos un bot genérico. Entendemos cómo trabajás y automatizamos tus procesos reales, integrados a las herramientas que ya usás. Con control, sin riesgos y con resultados que se miden.</p>
-      <p class="lead" style="margin-top:14px"><strong style="color:#fff">Menos dolores de cabeza, más tiempo para crecer tu negocio.</strong></p>
-      <a href="#proceso" class="btn" style="margin-top:26px">Cómo lo hacemos →</a>
+      <div class="kicker" data-en='The solution'>La solución</div>
+      <h2 data-en='Let a <span class="grad">titan</span> do the work for you.'>Que un <span class="grad">titán</span> haga el trabajo por vos.</h2>
+      <p class="lead" data-en='We do not install a generic bot. We understand how you work and automate your real processes, integrated with the tools you already use. With control, no risks and measurable results.'>No instalamos un bot genérico. Entendemos cómo trabajás y automatizamos tus procesos reales, integrados a las herramientas que ya usás. Con control, sin riesgos y con resultados que se miden.</p>
+      <p class="lead" style="margin-top:14px"><strong style="color:#fff" data-en='Fewer headaches, more time to grow your business.'>Menos dolores de cabeza, más tiempo para crecer tu negocio.</strong></p>
+      <a href="#proceso" class="btn" style="margin-top:26px" data-en='How we do it →'>Cómo lo hacemos →</a>
     </div>
     <div class="statue-wrap">
       <div class="haze" style="background:var(--g4)"></div>
@@ -239,13 +242,13 @@
 <!-- BENEFICIOS -->
 <section class="sec">
   <div class="wrap">
-    <div class="kicker">Lo que ganás</div>
-    <h2>Un empleado que <span class="grad">trabaja 24/7.</span></h2>
+    <div class="kicker" data-en='What you gain'>Lo que ganás</div>
+    <h2 data-en='An employee that <span class="grad">works 24/7.</span>'>Un empleado que <span class="grad">trabaja 24/7.</span></h2>
     <div class="grid g4">
-      <div class="ben glass"><svg class="ic" viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8M21 7v5m0-5h-5"/></svg><b>Más tiempo para crecer</b><span>Dejás lo repetitivo y te enfocás en expandir el negocio.</span></div>
-      <div class="ben glass"><svg class="ic" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><b>Cero errores</b><span>Procesos exactos, siempre igual. Sin equivocaciones que cuestan plata.</span></div>
-      <div class="ben glass"><svg class="ic" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.3 1 2.1h6c0-.8.4-1.6 1-2.1A7 7 0 0 0 12 2z"/><path d="M9 18h6M10 22h4"/></svg><b>Entiende y se adapta</b><span>No es un programa rígido que hace siempre lo mismo: interpreta lo que le pedís y resuelve según el contexto.</span></div>
-      <div class="ben glass"><svg class="ic" viewBox="0 0 24 24"><path d="M12 2 4 6v6c0 5 3.5 8 8 10 4.5-2 8-5 8-10V6l-8-4z"/><path d="m9 12 2 2 4-4"/></svg><b>Sin riesgos laborales</b><span>Sin cargas sociales, ausencias ni juicios. Rinde siempre.</span></div>
+      <div class="ben glass"><svg class="ic" viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8M21 7v5m0-5h-5"/></svg><b data-en='More time to grow'>Más tiempo para crecer</b><span data-en='Drop the repetitive work and focus on expanding the business.'>Dejás lo repetitivo y te enfocás en expandir el negocio.</span></div>
+      <div class="ben glass"><svg class="ic" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><b data-en='Zero errors'>Cero errores</b><span data-en='Exact processes, always the same. No mistakes that cost money.'>Procesos exactos, siempre igual. Sin equivocaciones que cuestan plata.</span></div>
+      <div class="ben glass"><svg class="ic" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.3 1 2.1h6c0-.8.4-1.6 1-2.1A7 7 0 0 0 12 2z"/><path d="M9 18h6M10 22h4"/></svg><b data-en='Understands and adapts'>Entiende y se adapta</b><span data-en='It is not a rigid program that always does the same thing: it interprets what you ask and solves based on context.'>No es un programa rígido que hace siempre lo mismo: interpreta lo que le pedís y resuelve según el contexto.</span></div>
+      <div class="ben glass"><svg class="ic" viewBox="0 0 24 24"><path d="M12 2 4 6v6c0 5 3.5 8 8 10 4.5-2 8-5 8-10V6l-8-4z"/><path d="m9 12 2 2 4-4"/></svg><b data-en='No labor risks'>Sin riesgos laborales</b><span data-en='No payroll taxes, absences or lawsuits. Always performing.'>Sin cargas sociales, ausencias ni juicios. Rinde siempre.</span></div>
     </div>
   </div>
 </section>
@@ -253,13 +256,13 @@
 <!-- RIESGO DE HACERLO SOLO -->
 <section class="sec">
   <div class="wrap">
-    <div class="kicker">El riesgo de hacerlo solo</div>
-    <h2>Dejáselo a los <span class="grad">expertos.</span></h2>
+    <div class="kicker" data-en='The risk of going it alone'>El riesgo de hacerlo solo</div>
+    <h2 data-en='Leave it to the <span class="grad">experts.</span>'>Dejáselo a los <span class="grad">expertos.</span></h2>
     <div class="grid g4">
-      <div class="card glass"><svg class="ic" viewBox="0 0 24 24"><path d="M12 9v4m0 4h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg><h3>La IA se descontrola</h3><p>Alucina, inventa datos y le responde mal a tus clientes. Tu marca, expuesta.</p></div>
-      <div class="card glass"><svg class="ic" viewBox="0 0 24 24"><path d="M9.1 9a3 3 0 1 1 5.8 1c-.5 1.5-2.9 2-2.9 4M12 17h.01"/><circle cx="12" cy="12" r="9.5"/></svg><h3>No sabés por dónde empezar</h3><p>Probás mil herramientas, te perdés y nunca terminás de implementar nada.</p></div>
-      <div class="card glass"><svg class="ic" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 1 2.6 6.3M3 12v5m0-5h5"/></svg><h3>No sabés qué es lo último</h3><p>El campo cambia cada semana. Lo que aprendés hoy, mañana ya quedó viejo.</p></div>
-      <div class="card glass"><svg class="ic" viewBox="0 0 24 24"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg><h3>Prueba y error caro</h3><p>Perdés tiempo y plata aprendiendo a los golpes lo que un experto ya resolvió.</p></div>
+      <div class="card glass"><svg class="ic" viewBox="0 0 24 24"><path d="M12 9v4m0 4h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg><h3 data-en='AI goes rogue'>La IA se descontrola</h3><p data-en='It hallucinates, makes up data and gives wrong answers to your clients. Your brand, exposed.'>Alucina, inventa datos y le responde mal a tus clientes. Tu marca, expuesta.</p></div>
+      <div class="card glass"><svg class="ic" viewBox="0 0 24 24"><path d="M9.1 9a3 3 0 1 1 5.8 1c-.5 1.5-2.9 2-2.9 4M12 17h.01"/><circle cx="12" cy="12" r="9.5"/></svg><h3 data-en='You do not know where to start'>No sabés por dónde empezar</h3><p data-en='You try a thousand tools, get lost and never finish implementing anything.'>Probás mil herramientas, te perdés y nunca terminás de implementar nada.</p></div>
+      <div class="card glass"><svg class="ic" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 1 2.6 6.3M3 12v5m0-5h5"/></svg><h3 data-en='You do not know the latest'>No sabés qué es lo último</h3><p data-en='The field changes every week. What you learn today is outdated tomorrow.'>El campo cambia cada semana. Lo que aprendés hoy, mañana ya quedó viejo.</p></div>
+      <div class="card glass"><svg class="ic" viewBox="0 0 24 24"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg><h3 data-en='Costly trial and error'>Prueba y error caro</h3><p data-en='You waste time and money learning the hard way what an expert has already solved.'>Perdés tiempo y plata aprendiendo a los golpes lo que un experto ya resolvió.</p></div>
     </div>
   </div>
 </section>
@@ -267,12 +270,12 @@
 <!-- PROCESO -->
 <section id="proceso" class="sec">
   <div class="wrap">
-    <div class="kicker">Cómo trabajamos</div>
-    <h2>Tres pasos. Empezás <span class="grad">sin riesgo.</span></h2>
+    <div class="kicker" data-en='How we work'>Cómo trabajamos</div>
+    <h2 data-en='Three steps. You start <span class="grad">risk-free.</span>'>Tres pasos. Empezás <span class="grad">sin riesgo.</span></h2>
     <div class="grid g3">
-      <div class="stp glass"><svg class="ic" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg><div class="n">PASO 01 — DIAGNÓSTICO</div><h3>Mapeamos tu operación</h3><p>Detectamos los procesos con mayor impacto y estimamos cuánto ahorrás.</p><div class="price grad">Gratis para arrancar</div></div>
-      <div class="stp glass"><svg class="ic" viewBox="0 0 24 24"><path d="M12 2 4 6v6c0 5 3.5 8 8 10 4.5-2 8-5 8-10V6l-8-4z"/><path d="m9 12 2 2 4-4"/></svg><div class="n">PASO 02 — IMPLEMENTACIÓN</div><h3>Lo construimos</h3><p>Automatizaciones a medida de tus sistemas.<br>&nbsp;</p><div class="price grad">Inversión única</div></div>
-      <div class="stp glass"><svg class="ic" viewBox="0 0 24 24"><path d="M3 12a9 9 0 0 1 9-9 9 9 0 0 1 6.3 2.6L21 8M21 3v5h-5M21 12a9 9 0 0 1-9 9 9 9 0 0 1-6.3-2.6L3 16m0 5v-5h5"/></svg><div class="n">PASO 03 — MEJORA CONTINUA</div><h3>Lo cuidamos</h3><p>Monitoreo y nuevas automatizaciones mientras escalás.</p><div class="price grad">Mantenimiento mensual</div></div>
+      <div class="stp glass"><svg class="ic" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg><div class="n" data-en='STEP 01 — ASSESSMENT'>PASO 01 — DIAGNÓSTICO</div><h3 data-en='We map your operation'>Mapeamos tu operación</h3><p data-en='We detect the highest-impact processes and estimate how much you save.'>Detectamos los procesos con mayor impacto y estimamos cuánto ahorrás.</p><div class="price grad" data-en='Free to start'>Gratis para arrancar</div></div>
+      <div class="stp glass"><svg class="ic" viewBox="0 0 24 24"><path d="M12 2 4 6v6c0 5 3.5 8 8 10 4.5-2 8-5 8-10V6l-8-4z"/><path d="m9 12 2 2 4-4"/></svg><div class="n" data-en='STEP 02 — IMPLEMENTATION'>PASO 02 — IMPLEMENTACIÓN</div><h3 data-en='We build it'>Lo construimos</h3><p data-en='Automations tailored to your systems.<br>&nbsp;'>Automatizaciones a medida de tus sistemas.<br>&nbsp;</p><div class="price grad" data-en='One-time investment'>Inversión única</div></div>
+      <div class="stp glass"><svg class="ic" viewBox="0 0 24 24"><path d="M3 12a9 9 0 0 1 9-9 9 9 0 0 1 6.3 2.6L21 8M21 3v5h-5M21 12a9 9 0 0 1-9 9 9 9 0 0 1-6.3-2.6L3 16m0 5v-5h5"/></svg><div class="n" data-en='STEP 03 — CONTINUOUS IMPROVEMENT'>PASO 03 — MEJORA CONTINUA</div><h3 data-en='We maintain it'>Lo cuidamos</h3><p data-en='Monitoring and new automations as you scale.'>Monitoreo y nuevas automatizaciones mientras escalás.</p><div class="price grad" data-en='Monthly maintenance'>Mantenimiento mensual</div></div>
     </div>
   </div>
 </section>
@@ -280,15 +283,15 @@
 <!-- CASOS DE USO -->
 <section id="casos" class="sec">
   <div class="wrap">
-    <div class="kicker">Qué se puede automatizar</div>
-    <h2>Sea cual sea tu rubro, hay <span class="grad">horas para recuperar.</span></h2>
+    <div class="kicker" data-en='What can be automated'>Qué se puede automatizar</div>
+    <h2 data-en='Whatever your industry, there are <span class="grad">hours to recover.</span>'>Sea cual sea tu rubro, hay <span class="grad">horas para recuperar.</span></h2>
     <div class="grid g3">
-      <div class="card glass"><h3>🍽️ Gastronomía / cadenas</h3><p>Carga de promos por local, reservas por WhatsApp, reportes entre sucursales.</p></div>
-      <div class="card glass"><h3>🏥 Salud / estética</h3><p>Agenda de turnos, recordatorios, consultas fuera de horario.</p></div>
-      <div class="card glass"><h3>🏠 Servicios / oficios</h3><p>Captura de llamadas perdidas, presupuestos y seguimiento de leads.</p></div>
-      <div class="card glass"><h3>🏢 Inmobiliarias</h3><p>Respuesta inmediata, calificación de leads, agenda de visitas.</p></div>
-      <div class="card glass"><h3>🛒 E-commerce / retail</h3><p>Recupero de carritos, estado de pedidos, post-venta.</p></div>
-      <div class="card glass"><h3>⚙️ Back-office (todos)</h3><p>Pasar datos entre sistemas, reportes y conciliaciones.</p></div>
+      <div class="card glass"><h3 data-en='🍽️ Food / chains'>🍽️ Gastronomía / cadenas</h3><p data-en='Loading promos per location, WhatsApp bookings, cross-branch reports.'>Carga de promos por local, reservas por WhatsApp, reportes entre sucursales.</p></div>
+      <div class="card glass"><h3 data-en='🏥 Health / aesthetics'>🏥 Salud / estética</h3><p data-en='Appointment scheduling, reminders, after-hours inquiries.'>Agenda de turnos, recordatorios, consultas fuera de horario.</p></div>
+      <div class="card glass"><h3 data-en='🏠 Services / trades'>🏠 Servicios / oficios</h3><p data-en='Capturing missed calls, quotes and lead follow-up.'>Captura de llamadas perdidas, presupuestos y seguimiento de leads.</p></div>
+      <div class="card glass"><h3 data-en='🏢 Real estate'>🏢 Inmobiliarias</h3><p data-en='Instant replies, lead qualification, visit scheduling.'>Respuesta inmediata, calificación de leads, agenda de visitas.</p></div>
+      <div class="card glass"><h3 data-en='🛒 E-commerce / retail'>🛒 E-commerce / retail</h3><p data-en='Cart recovery, order status, after-sales.'>Recupero de carritos, estado de pedidos, post-venta.</p></div>
+      <div class="card glass"><h3 data-en='⚙️ Back-office (all)'>⚙️ Back-office (todos)</h3><p data-en='Moving data between systems, reports and reconciliations.'>Pasar datos entre sistemas, reportes y conciliaciones.</p></div>
     </div>
   </div>
 </section>
@@ -302,13 +305,13 @@
       <img src="assets/statue-cut.png" alt="Estatua de mármol con halo neón">
     </div>
     <div>
-      <span class="pill" style="color:var(--g1)">Caso real · cadena de +40 locales</span>
-      <h2>De horas de carga manual a <span class="grad">minutos.</span></h2>
-      <p class="lead">Una cadena de gastronomía cargaba sus promociones a mano, local por local, todos los meses. Automatizamos el proceso completo de punta a punta. Hoy se ejecuta solo: el equipo dejó de copiar y pegar.</p>
+      <span class="pill" style="color:var(--g1)" data-en='Real case · chain of 40+ locations'>Caso real · cadena de +40 locales</span>
+      <h2 data-en='From hours of manual loading to <span class="grad">minutes.</span>'>De horas de carga manual a <span class="grad">minutos.</span></h2>
+      <p class="lead" data-en='A food chain loaded its promotions by hand, location by location, every month. We automated the entire end-to-end process. Today it runs on its own: the team stopped copying and pasting.'>Una cadena de gastronomía cargaba sus promociones a mano, local por local, todos los meses. Automatizamos el proceso completo de punta a punta. Hoy se ejecuta solo: el equipo dejó de copiar y pegar.</p>
       <div class="grid g3" style="margin-top:30px">
-        <div class="card glass" style="padding:18px"><div class="statbox"><div class="v grad">+40</div><div class="k">locales gestionados</div></div></div>
-        <div class="card glass" style="padding:18px"><div class="statbox"><div class="v grad" style="font-size:22px">De horas<br>a minutos</div><div class="k">tiempo de carga</div></div></div>
-        <div class="card glass" style="padding:18px"><div class="statbox"><div class="v grad">0</div><div class="k">errores de carga</div></div></div>
+        <div class="card glass" style="padding:18px"><div class="statbox"><div class="v grad">+40</div><div class="k" data-en='locations managed'>locales gestionados</div></div></div>
+        <div class="card glass" style="padding:18px"><div class="statbox"><div class="v grad" style="font-size:22px" data-en='From hours<br>to minutes'>De horas<br>a minutos</div><div class="k" data-en='loading time'>tiempo de carga</div></div></div>
+        <div class="card glass" style="padding:18px"><div class="statbox"><div class="v grad">0</div><div class="k" data-en='loading errors'>errores de carga</div></div></div>
       </div>
     </div>
   </div>
@@ -317,20 +320,20 @@
 <!-- POR QUÉ NOSOTROS -->
 <section class="sec">
   <div class="wrap">
-    <div class="kicker">Por qué TALOS</div>
-    <h2>No es "hablarle a un chat". Es <span class="grad">ingeniería de procesos.</span></h2>
+    <div class="kicker" data-en='Why TALOS'>Por qué TALOS</div>
+    <h2 data-en='It is not "chatting with a bot". It is <span class="grad">process engineering.</span>'>No es "hablarle a un chat". Es <span class="grad">ingeniería de procesos.</span></h2>
     <div class="vs">
-      <div class="vsbox bad glass"><h4>Un bot genérico</h4>
-        <li>Respuestas sueltas, sin contexto de tu negocio</li>
-        <li>No se integra a tus sistemas</li>
-        <li>Se rompe (o se descontrola) cuando se complica</li>
-        <li>Nadie responde cuando falla</li>
+      <div class="vsbox bad glass"><h4 data-en='A generic bot'>Un bot genérico</h4>
+        <li data-en='Loose answers, no context about your business'>Respuestas sueltas, sin contexto de tu negocio</li>
+        <li data-en='Does not integrate with your systems'>No se integra a tus sistemas</li>
+        <li data-en='Breaks (or goes rogue) when things get complex'>Se rompe (o se descontrola) cuando se complica</li>
+        <li data-en='No one responds when it fails'>Nadie responde cuando falla</li>
       </div>
       <div class="vsbox good"><h4 class="grad">TALOS</h4>
-        <li>Automatizaciones a medida de tu operación real</li>
-        <li>Integrado a las herramientas que ya usás</li>
-        <li>Con control y barreras de seguridad</li>
-        <li>Resultados medibles y soporte continuo</li>
+        <li data-en='Automations tailored to your real operation'>Automatizaciones a medida de tu operación real</li>
+        <li data-en='Integrated with the tools you already use'>Integrado a las herramientas que ya usás</li>
+        <li data-en='With control and safety guardrails'>Con control y barreras de seguridad</li>
+        <li data-en='Measurable results and ongoing support'>Resultados medibles y soporte continuo</li>
       </div>
     </div>
   </div>
@@ -340,19 +343,37 @@
 <section id="contacto" class="sec final">
   <div class="glow" style="width:620px;height:620px;background:var(--g3);top:50%;left:50%;transform:translate(-50%,-50%);opacity:.22"></div>
   <div class="wrap">
-    <div class="kicker" style="text-align:center">Empezá sin riesgo</div>
-    <h2>Diagnóstico gratis.<br>Te quedás con el plan <span class="grad">igual.</span></h2>
-    <p class="lead">En una reunión te decimos exactamente qué automatizar y cuánto vas a ahorrar. Si no avanzás, te llevás el informe sin pagar nada. <strong style="color:#fff">No tenés nada que perder.</strong></p>
-    <a href="https://wa.me/5491134234481?text=Hola,%20quiero%20mi%20diagn%C3%B3stico%20gratis" target="_blank" rel="noopener" class="btn btn-lg">Quiero mi diagnóstico →</a>
+    <div class="kicker" style="text-align:center" data-en='Start risk-free'>Empezá sin riesgo</div>
+    <h2 data-en='Free assessment.<br>You keep the plan <span class="grad">either way.</span>'>Diagnóstico gratis.<br>Te quedás con el plan <span class="grad">igual.</span></h2>
+    <p class="lead" data-en='In one meeting we tell you exactly what to automate and how much you will save. If you do not move forward, you keep the report at no cost. <strong style="color:#fff">You have nothing to lose.</strong>'>En una reunión te decimos exactamente qué automatizar y cuánto vas a ahorrar. Si no avanzás, te llevás el informe sin pagar nada. <strong style="color:#fff">No tenés nada que perder.</strong></p>
+    <a href="https://wa.me/5491134234481?text=Hola,%20quiero%20mi%20diagn%C3%B3stico%20gratis" target="_blank" rel="noopener" class="btn btn-lg" data-en='Get my assessment →'>Quiero mi diagnóstico →</a>
   </div>
 </section>
 
 <footer>
   <div class="wrap footin">
     <div class="logo" style="font-size:18px;letter-spacing:3px"><img src="assets/logo.png" class="mk-logo" style="height:28px" alt="">TALOS</div>
-    <div>Automatización de procesos con IA — LATAM</div>
+    <div data-en='AI process automation — LATAM &amp; USA'>Automatización de procesos con IA — LATAM</div>
   </div>
 </footer>
+
+<script>
+(function(){
+  var btn=document.getElementById('langToggle');
+  function apply(l){
+    document.querySelectorAll('[data-en]').forEach(function(el){
+      if(el.dataset.es===undefined) el.dataset.es=el.innerHTML;
+      el.innerHTML = (l==='en') ? el.dataset.en : el.dataset.es;
+    });
+    document.documentElement.lang=l;
+    if(btn) btn.textContent = (l==='en') ? 'ES' : 'EN';
+    try{localStorage.setItem('talos_lang',l);}catch(e){}
+  }
+  var l='es'; try{l=localStorage.getItem('talos_lang')||'es';}catch(e){}
+  apply(l);
+  if(btn) btn.addEventListener('click',function(){ apply(document.documentElement.lang==='en'?'es':'en'); });
+})();
+</script>
 
 </body>
 </html>
