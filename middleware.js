@@ -1,11 +1,14 @@
 // Vercel Edge Middleware — protege /admin y /api con Basic Auth.
 // La clave vive en variables de entorno de Vercel: ADMIN_USER y ADMIN_PASS.
 // El resto del sitio (landing, deck, one-page) queda intacto.
-// NOTA: cuando sumemos cron de publicación, ese endpoint va bajo /api/cron/* y se
-// autentica con CRON_SECRET (no Basic Auth), así que habrá que excluirlo del matcher.
+// El cron de publicación (/api/cron/*) se autentica con CRON_SECRET (no Basic Auth):
+// se lo deja pasar acá abajo y el endpoint valida el secret por su cuenta.
 export const config = { matcher: ['/admin', '/admin/:path*', '/api/:path*'] };
 
 export default function middleware(request) {
+  // /api/cron/* queda fuera del Basic Auth: lo autentica el propio endpoint con CRON_SECRET
+  // (Vercel Cron manda "Authorization: Bearer <CRON_SECRET>", que no es Basic → pasa derecho).
+  if (new URL(request.url).pathname.startsWith('/api/cron/')) return;
   const USER = process.env.ADMIN_USER || 'talos';
   const PASS = process.env.ADMIN_PASS || '';
   const auth = request.headers.get('authorization');

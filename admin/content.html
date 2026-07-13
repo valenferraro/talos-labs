@@ -39,6 +39,9 @@
   .state.pendiente{background:rgba(34,211,238,.12);color:var(--g2)}
   .state.aprobado{background:rgba(52,226,176,.14);color:var(--ok)}
   .state.descartado{background:rgba(240,97,109,.14);color:var(--no)}
+  .state.publicado{background:rgba(168,85,247,.16);color:var(--g4)}
+  .card.publicado{border-color:rgba(168,85,247,.5)}
+  .chip.pub i{color:var(--g4)}
   .badges{display:flex;gap:6px;flex-wrap:wrap;padding:12px 18px 0}
   .b{font-size:11px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--mut);border:1px solid var(--line);padding:4px 10px;border-radius:999px}
   .b.acc{color:var(--txt);border-color:rgba(244,246,255,.25)}
@@ -63,6 +66,16 @@
   .empty{color:var(--mut);font-size:13px}
   .note{margin-top:40px;color:var(--mut);font-size:12px;line-height:1.6}
 
+  .gen{display:flex;gap:10px;align-items:center;flex-wrap:wrap;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:14px 18px;margin-bottom:22px}
+  .gen input[type=text]{flex:1;min-width:220px;background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:10px;color:var(--txt);font-family:'Inter';font-size:13.5px;padding:11px 14px;outline:none}
+  .gen input[type=text]:focus{border-color:var(--g2)}
+  .gen .btn-gen{padding:11px 18px;border-radius:10px;border:0;cursor:pointer;font-weight:700;font-size:13px;font-family:'Inter';background:var(--grad);color:#051018}
+  .gen .btn-gen.alt{background:rgba(255,255,255,.07);color:var(--txt);border:1px solid var(--line)}
+  .gen label{font-size:12px;color:var(--mut);display:flex;align-items:center;gap:6px;cursor:pointer;white-space:nowrap}
+  .jobs{display:flex;gap:8px;flex-wrap:wrap;width:100%;font-size:11.5px;color:var(--mut)}
+  .jobs .j{border:1px solid var(--line);border-radius:999px;padding:4px 12px}
+  .jobs .j.corriendo{color:var(--g2);border-color:rgba(34,211,238,.4)}
+  .jobs .j.hecho{color:var(--ok)} .jobs .j.error{color:var(--no)}
   #igOverlay{position:fixed;inset:0;background:rgba(4,6,12,.8);backdrop-filter:blur(6px);z-index:50;display:flex;align-items:center;justify-content:center}
   #igOverlay[hidden]{display:none}
   .phone{width:400px;max-height:88vh;background:#000;border:1px solid rgba(244,246,255,.18);border-radius:28px;overflow:hidden;display:flex;flex-direction:column}
@@ -92,6 +105,13 @@
     <div class="stats" id="stats"></div>
   </div>
 </header>
+<div class="gen">
+  <input type="text" id="ideaTxt" placeholder="💡 Tirale una idea a la máquina (ej: pieza sobre el costo de contestar tarde los DMs)…" maxlength="400">
+  <button class="btn-gen" onclick="genIdea()">💡 Generar</button>
+  <button class="btn-gen alt" onclick="genTirada()">🎲 Tirada ×6</button>
+  <label><input type="checkbox" id="genAssets"> puede gastar créditos en assets (tope 60)</label>
+  <div class="jobs" id="jobs"></div>
+</div>
 <div class="grid" id="grid"></div>
 <h2>Descartadas</h2>
 <div class="grid" id="gridOut"></div>
@@ -130,11 +150,13 @@ async function load(){
 function render(){
   const ok=POSTS.filter(p=>p.estado_visual==='aprobado').length;
   const no=POSTS.filter(p=>p.estado_visual==='descartado').length;
-  const pend=POSTS.length-ok-no;
+  const pub=POSTS.filter(p=>p.estado_visual==='publicado').length;
+  const pend=POSTS.length-ok-no-pub;
   document.getElementById('sub').textContent=
     `${POSTS.length} piezas · 1 por día · IG + LinkedIn + X · aprobá o descartá con un clic desde donde estés`;
   document.getElementById('stats').innerHTML=
-    `<span class="chip ok"><i>●</i>${ok} aprobadas</span>
+    `${pub?`<span class="chip pub"><i>●</i>${pub} publicadas</span>`:''}
+     <span class="chip ok"><i>●</i>${ok} aprobadas</span>
      <span class="chip pend"><i>●</i>${pend} pendientes</span>
      <span class="chip no"><i>●</i>${no} descartadas</span>`;
   const grid=document.getElementById('grid'), out=document.getElementById('gridOut');
@@ -159,7 +181,8 @@ function card(p){
   let btns='';
   if(st==='pendiente') btns=`<button class="btn ok" onclick="decide('${p.id}','aprobado')">✓ Aprobar</button>
     <button class="btn no" onclick="decide('${p.id}','descartado')">✕ Descartar</button>`;
-  else btns=`<button class="btn undo" onclick="decide('${p.id}','renderizado')">↺ Deshacer</button>`;
+  else if(st!=='publicado') btns=`<button class="btn undo" onclick="decide('${p.id}','renderizado')">↺ Deshacer</button>`;
+  const capLabel=d.format==='story'?'Caption (referencia — la story se publica sin texto)':'Caption';
   div.innerHTML=`
     <div class="datebar"><div class="date">${f.top}<small>${f.small}</small></div><span class="state ${st}">${st}</span></div>
     <div class="badges">
@@ -167,7 +190,7 @@ function card(p){
       <span class="b">${d.angle||''}</span><span class="b">${d.palette||''}</span><span class="b">IG · LI · X</span>
     </div>
     ${media}
-    <details><summary>Caption</summary><pre>${(p.caption||'').replace(/</g,'&lt;')}</pre></details>
+    <details><summary>${capLabel}</summary><pre>${(p.caption||'').replace(/</g,'&lt;')}</pre></details>
     <div class="actions">${btns}</div>`;
   div.dataset.imgs=JSON.stringify(imgs); div.dataset.idx='0';
   return div;
@@ -194,18 +217,48 @@ function renderIG(){
   const cells=POSTS
     .filter(p=>{const fmt=(p.data||{}).format; return fmt==='post'||fmt==='carrusel';})
     .filter(p=>p.estado_visual!=='descartado')
-    .filter(p=>!onlyOk||p.estado_visual==='aprobado')
+    .filter(p=>!onlyOk||['aprobado','publicado'].includes(p.estado_visual))
     .filter(p=>p.slot_fecha&&(p.archivos||[]).length)
     .sort((a,b)=>b.slot_fecha.localeCompare(a.slot_fecha));
   document.getElementById('igGrid').innerHTML=cells.map(p=>{
-    const st=p.estado_visual==='aprobado'?'ok':'pend';
+    const st=['aprobado','publicado'].includes(p.estado_visual)?'ok':'pend';
     return `<div class="cell ${st==='pend'?'pend':''}" title="${p.id} · ${p.slot_fecha}">
       <img src="${p.archivos[0]}" loading="lazy">
       ${(p.data||{}).format==='carrusel'?'<span class="car">▣</span>':''}
       <span class="st ${st}"></span></div>`;
   }).join('');
 }
+// ── generador remoto: encola jobs que ejecuta el watcher en la PC de Valen ──
+async function genIdea(){
+  const txt=document.getElementById('ideaTxt').value.trim();
+  if(!txt) return alert('Escribí la idea primero.');
+  await postJob({tipo:'idea', prompt:txt, assets:document.getElementById('genAssets').checked});
+  document.getElementById('ideaTxt').value='';
+}
+async function genTirada(){
+  await postJob({tipo:'tirada', assets:document.getElementById('genAssets').checked});
+}
+async function postJob(body){
+  const res=await fetch('/api/content/idea',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(body)});
+  if(!res.ok){ alert('No se pudo encolar ('+res.status+')'); return; }
+  loadJobs();
+}
+const JEST={pendiente:'⏳ en cola',corriendo:'⚙️ generando…',hecho:'✓',error:'✕ error'};
+async function loadJobs(){
+  try{
+    const res=await fetch('/api/content/idea');
+    if(!res.ok) return;
+    const jobs=await res.json();
+    const activos=jobs.some(j=>['pendiente','corriendo'].includes(j.estado));
+    document.getElementById('jobs').innerHTML=jobs.slice(0,5).map(j=>
+      `<span class="j ${j.estado}">${JEST[j.estado]||j.estado} · ${j.tipo==='idea'?(j.prompt||'').slice(0,48):'tirada ×6'}${j.estado==='hecho'?' — corré un refresh para ver las piezas':''}</span>`).join('')
+      +(activos?'<span class="j">la PC de Valen tiene que estar prendida con el watcher corriendo</span>':'');
+    if(activos) setTimeout(()=>{loadJobs();load();},20000);
+  }catch(e){}
+}
+document.getElementById('ideaTxt').addEventListener('keydown',e=>{if(e.key==='Enter')genIdea();});
 load();
+loadJobs();
 </script>
 </body>
 </html>
