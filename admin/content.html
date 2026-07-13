@@ -171,13 +171,19 @@ function card(p){
   div.className='card '+st;
   const f=fdate(p);
   const imgs=p.archivos||[];
-  let media=`<div class="media">${imgs.length?`<img src="${imgs[0]}" loading="lazy">`:''}`;
-  if(imgs.length>1){
-    media+=`<button class="nav prev" onclick="flip(this,-1)">‹</button>
-            <button class="nav next" onclick="flip(this,1)">›</button>
-            <div class="dots">${imgs.map((_,i)=>`<i class="${i===0?'on':''}"></i>`).join('')}</div>`;
+  const esReel=d.format==='reel'||(imgs[0]||'').endsWith('.mp4');
+  let media;
+  if(esReel){
+    media=`<div class="media"><video src="${imgs[0]}" ${imgs[1]?`poster="${imgs[1]}"`:''} controls preload="none" style="width:100%;display:block"></video></div>`;
+  } else {
+    media=`<div class="media">${imgs.length?`<img src="${imgs[0]}" loading="lazy">`:''}`;
+    if(imgs.length>1){
+      media+=`<button class="nav prev" onclick="flip(this,-1)">‹</button>
+              <button class="nav next" onclick="flip(this,1)">›</button>
+              <div class="dots">${imgs.map((_,i)=>`<i class="${i===0?'on':''}"></i>`).join('')}</div>`;
+    }
+    media+='</div>';
   }
-  media+='</div>';
   let btns='';
   if(st==='pendiente') btns=`<button class="btn ok" onclick="decide('${p.id}','aprobado')">✓ Aprobar</button>
     <button class="btn no" onclick="decide('${p.id}','descartado')">✕ Descartar</button>`;
@@ -186,7 +192,7 @@ function card(p){
   div.innerHTML=`
     <div class="datebar"><div class="date">${f.top}<small>${f.small}</small></div><span class="state ${st}">${st}</span></div>
     <div class="badges">
-      <span class="b acc">${FMT[d.format]||d.format||''}${imgs.length>1?` · ${imgs.length} slides`:''}</span>
+      <span class="b acc">${FMT[d.format]||d.format||''}${!esReel&&imgs.length>1?` · ${imgs.length} slides`:''}</span>
       <span class="b">${d.angle||''}</span><span class="b">${d.palette||''}</span><span class="b">IG · LI · X</span>
     </div>
     ${media}

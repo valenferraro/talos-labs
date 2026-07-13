@@ -6,6 +6,8 @@
 //   post     → container {image_url, caption} → publish
 //   carrusel → containers hijos {is_carousel_item} → container CAROUSEL {children, caption} → publish
 //   story    → container {image_url, media_type: STORIES} SIN caption → publish
+//   reel     → container {media_type: REELS, video_url, caption, cover_url} → publish
+//              (el video tarda en procesar: espera más larga; archivos = [mp4, portada] en Blob)
 // Necesita en Vercel: CRON_SECRET y META_TOKEN (token del dashboard de la app, API de Instagram
 // con Instagram Login). IG_USER_ID es opcional: si falta se deriva de /me con el token.
 // Sin credenciales Meta responde ok:false y no toca nada (queda "en seco" hasta el setup).
@@ -24,13 +26,13 @@ async function graph(pathname, params) {
   return json;
 }
 
-async function waitContainer(creationId) {
-  for (let i = 0; i < 10; i++) {
+async function waitContainer(creationId, tries = 10) {
+  for (let i = 0; i < tries; i++) {
     const res = await fetch(`${GRAPH}/${creationId}?fields=status_code&access_token=${process.env.META_TOKEN}`);
     const json = await res.json();
     if (json.status_code === "FINISHED") return;
     if (json.status_code === "ERROR") throw new Error(`container ${creationId} en ERROR`);
-    await new Promise(r => setTimeout(r, 2000));
+    await new Promise(r => setTimeout(r, 3000));
   }
   throw new Error(`container ${creationId} no quedó FINISHED a tiempo`);
 }
@@ -50,6 +52,15 @@ async function publicar(p) {
   if (!urls.length) throw new Error("pieza sin archivos");
   const format = (p.data || {}).format;
   let creationId;
+  if (format === "reel") {
+    // archivos = [mp4, portada.png]; el procesamiento del video tarda → espera larga (hasta ~2 min)
+    const params = { media_type: "REELS", video_url: urls[0], caption: p.caption || "", share_to_feed: true };
+    if (urls[1]) params.cover_url = urls[1];
+    ({ id: creationId } = await graph(`${igUser}/media`, params));
+    await waitContainer(creationId, 40);
+    const { id: mediaId } = await graph(`${igUser}/media_publish`, { creation_id: creationId });
+    return mediaId;
+  }
   if (format === "story") {
     ({ id: creationId } = await graph(`${igUser}/media`, { image_url: urls[0], media_type: "STORIES" }));
   } else if (urls.length > 1) {
