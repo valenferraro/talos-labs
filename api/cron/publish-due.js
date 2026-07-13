@@ -6,10 +6,11 @@
 //   post     → container {image_url, caption} → publish
 //   carrusel → containers hijos {is_carousel_item} → container CAROUSEL {children, caption} → publish
 //   story    → container {image_url, media_type: STORIES} SIN caption → publish
-// Necesita en Vercel: CRON_SECRET, META_TOKEN (token larga duración), IG_USER_ID.
+// Necesita en Vercel: CRON_SECRET y META_TOKEN (token del dashboard de la app, API de Instagram
+// con Instagram Login). IG_USER_ID es opcional: si falta se deriva de /me con el token.
 // Sin credenciales Meta responde ok:false y no toca nada (queda "en seco" hasta el setup).
 
-const GRAPH = process.env.META_GRAPH_BASE || "https://graph.facebook.com/v23.0";
+const GRAPH = process.env.META_GRAPH_BASE || "https://graph.instagram.com/v23.0";
 const MAX_POR_CORRIDA = 3; // válvula: nunca más de 3 publicaciones por corrida
 
 async function graph(pathname, params) {
@@ -34,8 +35,17 @@ async function waitContainer(creationId) {
   throw new Error(`container ${creationId} no quedó FINISHED a tiempo`);
 }
 
+async function igUserId() {
+  if (process.env.IG_USER_ID) return process.env.IG_USER_ID;
+  const res = await fetch(`${GRAPH}/me?fields=user_id,username&access_token=${process.env.META_TOKEN}`);
+  const json = await res.json();
+  if (json.error) throw new Error(`/me: ${JSON.stringify(json.error)}`);
+  process.env.IG_USER_ID = String(json.user_id || json.id);
+  return process.env.IG_USER_ID;
+}
+
 async function publicar(p) {
-  const igUser = process.env.IG_USER_ID;
+  const igUser = await igUserId();
   const urls = p.archivos || [];
   if (!urls.length) throw new Error("pieza sin archivos");
   const format = (p.data || {}).format;
@@ -74,8 +84,8 @@ export default async function handler(req, res) {
   if (!process.env.CRON_SECRET || auth !== `Bearer ${process.env.CRON_SECRET}`) {
     return res.status(401).json({ error: "no autorizado" });
   }
-  if (!process.env.META_TOKEN || !process.env.IG_USER_ID) {
-    return res.status(200).json({ ok: false, motivo: "faltan META_TOKEN / IG_USER_ID — cron en seco" });
+  if (!process.env.META_TOKEN) {
+    return res.status(200).json({ ok: false, motivo: "falta META_TOKEN — cron en seco" });
   }
   if (!process.env.POSTGRES_URL && process.env.DATABASE_URL) process.env.POSTGRES_URL = process.env.DATABASE_URL;
   const { sql } = await import("@vercel/postgres");
