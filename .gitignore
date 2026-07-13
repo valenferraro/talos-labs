@@ -6,3 +6,17 @@ Thumbs.db
 ~$*
 *.tmp
 _*.pdf
+
+# Secretos: NUNCA al repo (API keys, tokens)
+.env
+.env.*
+.vercel
+
+# Datos de leads: NUNCA al repo (contienen nombres/telefonos reales)
+lead-machine/data/
+lead-machine/node_modules/
+admin/leads.html
+
+# Máquina de contenido: corre LOCAL, no se publica (borradores, renders, assets, jobs)
+contenido-bulk/
+contenido/

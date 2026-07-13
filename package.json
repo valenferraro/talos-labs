@@ -1,0 +1,15 @@
+{
+  "name": "talos-labs",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "TALOS Labs — sitio + panel interno (/admin): Content Studio, Leads, Calendario.",
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.68.0",
+    "@vercel/blob": "^2.6.1",
+    "@vercel/postgres": "^0.10.0"
+  },
+  "devDependencies": {
+    "playwright": "^1.61.1"
+  }
+}

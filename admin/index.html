@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>TALOS · Panel</title>
+<link rel="icon" href="/favicon.png">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Archivo+Black&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#070912;--panel:#0f1320;--line:#1c2233;--txt:#e9edf6;--dim:#8a95ad;
+  --g1:#34E2B0;--g2:#22D3EE;--g3:#6366F1;--g4:#A855F7;
+  --sans:'Inter',system-ui,sans-serif;--display:'Archivo Black',sans-serif;--serif:'Cinzel',serif;
+}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:
+  radial-gradient(1200px 600px at 80% -10%,rgba(99,102,241,.18),transparent),
+  radial-gradient(900px 500px at 0% 110%,rgba(52,226,176,.12),transparent),var(--bg);
+  color:var(--txt);font-family:var(--sans);padding:48px 24px}
+.wrap{max-width:1000px;margin:0 auto}
+.brand{font-family:var(--serif);letter-spacing:.18em;font-weight:700;font-size:14px;
+  background:linear-gradient(90deg,var(--g1),var(--g2),var(--g3),var(--g4));-webkit-background-clip:text;background-clip:text;color:transparent}
+h1{font-family:var(--display);font-size:34px;margin:6px 0 4px;letter-spacing:-.01em}
+.tag{color:var(--dim);margin-bottom:34px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+.tile{display:block;text-decoration:none;color:inherit;background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.01));
+  border:1px solid var(--line);border-radius:16px;padding:22px;transition:.18s;backdrop-filter:blur(8px)}
+.tile:hover{transform:translateY(-3px);border-color:rgba(99,102,241,.55);box-shadow:0 12px 40px rgba(99,102,241,.15)}
+.tile.soon{opacity:.5;pointer-events:none}
+.ico{font-size:26px;margin-bottom:12px}
+.tile h3{margin:0 0 4px;font-size:17px}
+.tile p{margin:0;color:var(--dim);font-size:13px;line-height:1.5}
+.pill{display:inline-block;margin-top:12px;font-size:11px;padding:3px 9px;border-radius:20px;
+  background:rgba(52,226,176,.12);color:var(--g1);border:1px solid rgba(52,226,176,.25)}
+.pill.soon{background:rgba(138,149,173,.1);color:var(--dim);border-color:var(--line)}
+footer{margin-top:40px;color:var(--dim);font-size:12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="brand">TALOS · LABS</div>
+  <h1>Panel interno</h1>
+  <div class="tag">Herramientas privadas. Menos trabajo. Más rentabilidad.</div>
+
+  <div class="grid">
+    <a class="tile" href="/admin/content.html">
+      <div class="ico">✍️</div>
+      <h3>Aprobación de contenido</h3>
+      <p>Calendario de piezas renderizadas: aprobá o descartá con un clic desde cualquier lado, con preview del feed de IG.</p>
+      <span class="pill">Activo</span>
+    </a>
+
+    <a class="tile" href="/admin/leads.html">
+      <div class="ico">🎯</div>
+      <h3>Leads</h3>
+      <p>Negocios scrapeados de Google Maps, puntuados por “dolor” y con el mensaje de apertura listo.</p>
+      <span class="pill">Activo</span>
+    </a>
+
+    <div class="tile soon">
+      <div class="ico">🗓️</div>
+      <h3>Calendario + publicación</h3>
+      <p>Programás cada pieza por fecha y se publica sola en IG/FB. Portada de reel con IA.</p>
+      <span class="pill soon">Próximamente</span>
+    </div>
+
+    <div class="tile soon">
+      <div class="ico">📈</div>
+      <h3>Pipeline de ventas</h3>
+      <p>Estado de cada prospecto: contactado, diagnóstico, propuesta, cerrado.</p>
+      <span class="pill soon">Próximamente</span>
+    </div>
+
+    <div class="tile soon">
+      <div class="ico">🎬</div>
+      <h3>Video-demos</h3>
+      <p>Guiones y demos personalizados por lead para el outreach.</p>
+      <span class="pill soon">Próximamente</span>
+    </div>
+  </div>
+
+  <footer>TALOS Labs — acceso restringido.</footer>
+</div>
+</body>
+</html>

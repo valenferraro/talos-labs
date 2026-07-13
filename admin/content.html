@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>TALOS · Aprobación de contenido</title>
+<link rel="icon" href="/favicon.png">
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Cinzel:wght@700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#070912; --panel:#0A0C16; --line:rgba(244,246,255,.1); --txt:#F4F6FF; --mut:#99A2C0;
+    --g1:#34E2B0; --g2:#22D3EE; --g3:#6366F1; --g4:#A855F7;
+    --grad:linear-gradient(90deg,var(--g1),var(--g2),var(--g3),var(--g4));
+    --ok:#34E2B0; --no:#F0616D;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;padding:28px 32px 80px}
+  header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;margin-bottom:22px}
+  .wordmark{font-family:'Cinzel',serif;font-size:22px;letter-spacing:6px}
+  .wordmark b{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+  a.back{color:var(--mut);text-decoration:none;font-size:13px}
+  h1{font-family:'Archivo Black',sans-serif;font-size:26px;text-transform:uppercase;letter-spacing:.5px;margin:10px 0 4px}
+  .sub{color:var(--mut);font-size:14px}
+  .stats{display:flex;gap:10px;flex-wrap:wrap}
+  .chip{padding:8px 16px;border-radius:999px;border:1px solid var(--line);background:var(--panel);font-size:13px;font-weight:600}
+  .chip i{font-style:normal;margin-right:6px}
+  .chip.ok i{color:var(--ok)} .chip.pend i{color:var(--g2)} .chip.no i{color:var(--no)}
+  .btn-ig{padding:10px 20px;border-radius:999px;border:0;cursor:pointer;font-weight:700;font-size:13px;font-family:'Inter';background:var(--grad);color:#051018}
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:18px;overflow:hidden;display:flex;flex-direction:column;transition:border-color .2s}
+  .card.aprobado{border-color:rgba(52,226,176,.55);box-shadow:0 0 0 1px rgba(52,226,176,.25)}
+  .card.descartado{opacity:.45}
+  .datebar{display:flex;justify-content:space-between;align-items:center;padding:14px 18px;border-bottom:1px solid var(--line)}
+  .date{font-family:'Archivo Black',sans-serif;font-size:15px;text-transform:uppercase;letter-spacing:1px}
+  .date small{display:block;font-family:'Inter';font-weight:500;color:var(--mut);letter-spacing:.3px;margin-top:2px;font-size:11.5px}
+  .state{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:5px 12px;border-radius:999px}
+  .state.pendiente{background:rgba(34,211,238,.12);color:var(--g2)}
+  .state.aprobado{background:rgba(52,226,176,.14);color:var(--ok)}
+  .state.descartado{background:rgba(240,97,109,.14);color:var(--no)}
+  .badges{display:flex;gap:6px;flex-wrap:wrap;padding:12px 18px 0}
+  .b{font-size:11px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--mut);border:1px solid var(--line);padding:4px 10px;border-radius:999px}
+  .b.acc{color:var(--txt);border-color:rgba(244,246,255,.25)}
+  .media{position:relative;margin:14px 18px;border-radius:12px;overflow:hidden;background:#04060d}
+  .media img{width:100%;display:block}
+  .nav{position:absolute;top:50%;transform:translateY(-50%);width:40px;height:40px;border-radius:50%;border:0;cursor:pointer;background:rgba(7,9,18,.72);color:#fff;font-size:19px}
+  .nav:hover{background:rgba(7,9,18,.92)}
+  .nav.prev{left:10px}.nav.next{right:10px}
+  .dots{position:absolute;bottom:10px;left:0;right:0;display:flex;gap:5px;justify-content:center}
+  .dots i{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.35)}
+  .dots i.on{background:var(--g2)}
+  details{margin:0 18px 12px;color:var(--mut);font-size:13px}
+  details summary{cursor:pointer;font-weight:600;color:var(--txt);font-size:12.5px;letter-spacing:.5px}
+  details pre{white-space:pre-wrap;font-family:'Inter';margin-top:8px;line-height:1.5;background:rgba(255,255,255,.03);padding:12px;border-radius:10px}
+  .actions{display:flex;gap:10px;padding:4px 18px 18px;margin-top:auto}
+  .btn{flex:1;padding:13px;border-radius:12px;border:0;cursor:pointer;font-weight:700;font-size:14px;font-family:'Inter'}
+  .btn.ok{background:var(--grad);color:#051018}
+  .btn.no{background:rgba(240,97,109,.13);color:var(--no);border:1px solid rgba(240,97,109,.4)}
+  .btn.undo{background:rgba(255,255,255,.06);color:var(--mut);border:1px solid var(--line)}
+  .btn:hover{filter:brightness(1.15)}
+  h2{font-family:'Archivo Black',sans-serif;font-size:16px;text-transform:uppercase;letter-spacing:1px;color:var(--mut);margin:38px 0 14px}
+  .empty{color:var(--mut);font-size:13px}
+  .note{margin-top:40px;color:var(--mut);font-size:12px;line-height:1.6}
+
+  #igOverlay{position:fixed;inset:0;background:rgba(4,6,12,.8);backdrop-filter:blur(6px);z-index:50;display:flex;align-items:center;justify-content:center}
+  #igOverlay[hidden]{display:none}
+  .phone{width:400px;max-height:88vh;background:#000;border:1px solid rgba(244,246,255,.18);border-radius:28px;overflow:hidden;display:flex;flex-direction:column}
+  .phone-head{display:flex;justify-content:space-between;align-items:center;padding:14px 18px;border-bottom:1px solid rgba(244,246,255,.1)}
+  .phone-head b{font-size:14px}
+  .phone-head label{font-size:11.5px;color:var(--mut);display:flex;align-items:center;gap:6px;cursor:pointer}
+  .ig-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;overflow-y:auto}
+  .ig-grid .cell{position:relative;aspect-ratio:3/4;background:#0A0C16}
+  .ig-grid img{width:100%;height:100%;object-fit:cover;display:block}
+  .ig-grid .cell.pend img{opacity:.45}
+  .ig-grid .cell .st{position:absolute;top:6px;right:6px;width:9px;height:9px;border-radius:50%}
+  .ig-grid .cell .st.ok{background:var(--ok)} .ig-grid .cell .st.pend{background:var(--g2)}
+  .ig-grid .cell .car{position:absolute;top:5px;left:7px;font-size:12px;color:#fff;text-shadow:0 1px 4px #000}
+  .ig-note{padding:10px 16px;font-size:11px;color:var(--mut);border-top:1px solid rgba(244,246,255,.1)}
+</style>
+</head>
+<body>
+<header>
+  <div>
+    <a class="back" href="/admin">← panel</a>
+    <div class="wordmark" style="margin-top:8px">TALOS<b>.</b></div>
+    <h1>Aprobación de contenido</h1>
+    <div class="sub" id="sub">Cargando…</div>
+  </div>
+  <div style="display:flex;align-items:center;gap:14px">
+    <button class="btn-ig" onclick="toggleIG()">📱 Feed IG</button>
+    <div class="stats" id="stats"></div>
+  </div>
+</header>
+<div class="grid" id="grid"></div>
+<h2>Descartadas</h2>
+<div class="grid" id="gridOut"></div>
+<div class="empty" id="emptyOut" style="display:none">Nada descartado todavía.</div>
+<p class="note">La generación y el render corren en la máquina local (<code>contenido-bulk/</code>); esta galería
+lee Postgres + Blob. Para subir piezas nuevas o bajar estas decisiones al calendario local se corre
+<code>node contenido-bulk/sync.js</code>. Las descartadas se compactan en el calendario en el próximo sync.</p>
+
+<div id="igOverlay" hidden onclick="if(event.target===this)toggleIG()">
+  <div class="phone">
+    <div class="phone-head">
+      <b>talos.labs</b>
+      <label><input type="checkbox" id="igOnlyOk" onchange="renderIG()"> solo aprobadas</label>
+    </div>
+    <div class="ig-grid" id="igGrid"></div>
+    <div class="ig-note">La grilla del perfil (más nueva arriba a la izquierda). Stories no aparecen. Verde = aprobada, celeste = pendiente.</div>
+  </div>
+</div>
+
+<script>
+const DIAS=['DOM','LUN','MAR','MIÉ','JUE','VIE','SÁB'], MESES=['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+const FMT={post:'Feed', carrusel:'Carrusel', story:'Story'};
+let POSTS=[];
+
+function fdate(r){
+  if(!r.slot_fecha) return {top:'Sin fecha', small:''};
+  const d=new Date(r.slot_fecha+'T12:00:00');
+  return {top:`${DIAS[d.getDay()]} ${d.getDate()} ${MESES[d.getMonth()]}`, small:`${r.slot_hora||''} hs`};
+}
+async function load(){
+  const res=await fetch('/api/content/list');
+  if(!res.ok){ document.getElementById('sub').textContent='Error cargando ('+res.status+') — ¿se corrió el sync inicial y están las stores creadas?'; return; }
+  POSTS=await res.json();
+  render();
+}
+function render(){
+  const ok=POSTS.filter(p=>p.estado_visual==='aprobado').length;
+  const no=POSTS.filter(p=>p.estado_visual==='descartado').length;
+  const pend=POSTS.length-ok-no;
+  document.getElementById('sub').textContent=
+    `${POSTS.length} piezas · 1 por día · IG + LinkedIn + X · aprobá o descartá con un clic desde donde estés`;
+  document.getElementById('stats').innerHTML=
+    `<span class="chip ok"><i>●</i>${ok} aprobadas</span>
+     <span class="chip pend"><i>●</i>${pend} pendientes</span>
+     <span class="chip no"><i>●</i>${no} descartadas</span>`;
+  const grid=document.getElementById('grid'), out=document.getElementById('gridOut');
+  grid.innerHTML=''; out.innerHTML='';
+  POSTS.forEach(p=>{ (p.estado_visual==='descartado'?out:grid).appendChild(card(p)); });
+  document.getElementById('emptyOut').style.display=no?'none':'block';
+}
+function card(p){
+  const d=p.data||{};
+  const div=document.createElement('div');
+  const st=(p.estado_visual==='renderizado'||p.estado_visual==='sin_render')?'pendiente':p.estado_visual;
+  div.className='card '+st;
+  const f=fdate(p);
+  const imgs=p.archivos||[];
+  let media=`<div class="media">${imgs.length?`<img src="${imgs[0]}" loading="lazy">`:''}`;
+  if(imgs.length>1){
+    media+=`<button class="nav prev" onclick="flip(this,-1)">‹</button>
+            <button class="nav next" onclick="flip(this,1)">›</button>
+            <div class="dots">${imgs.map((_,i)=>`<i class="${i===0?'on':''}"></i>`).join('')}</div>`;
+  }
+  media+='</div>';
+  let btns='';
+  if(st==='pendiente') btns=`<button class="btn ok" onclick="decide('${p.id}','aprobado')">✓ Aprobar</button>
+    <button class="btn no" onclick="decide('${p.id}','descartado')">✕ Descartar</button>`;
+  else btns=`<button class="btn undo" onclick="decide('${p.id}','renderizado')">↺ Deshacer</button>`;
+  div.innerHTML=`
+    <div class="datebar"><div class="date">${f.top}<small>${f.small}</small></div><span class="state ${st}">${st}</span></div>
+    <div class="badges">
+      <span class="b acc">${FMT[d.format]||d.format||''}${imgs.length>1?` · ${imgs.length} slides`:''}</span>
+      <span class="b">${d.angle||''}</span><span class="b">${d.palette||''}</span><span class="b">IG · LI · X</span>
+    </div>
+    ${media}
+    <details><summary>Caption</summary><pre>${(p.caption||'').replace(/</g,'&lt;')}</pre></details>
+    <div class="actions">${btns}</div>`;
+  div.dataset.imgs=JSON.stringify(imgs); div.dataset.idx='0';
+  return div;
+}
+function flip(btn,dir){
+  const cardEl=btn.closest('.card');
+  const imgs=JSON.parse(cardEl.dataset.imgs);
+  let i=(parseInt(cardEl.dataset.idx)+dir+imgs.length)%imgs.length;
+  cardEl.dataset.idx=i;
+  cardEl.querySelector('.media img').src=imgs[i];
+  cardEl.querySelectorAll('.dots i').forEach((el,j)=>el.classList.toggle('on',j===i));
+}
+async function decide(id,decision){
+  await fetch('/api/content/decide',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({id,decision})});
+  load();
+}
+function toggleIG(){
+  const ov=document.getElementById('igOverlay');
+  ov.hidden=!ov.hidden;
+  if(!ov.hidden) renderIG();
+}
+function renderIG(){
+  const onlyOk=document.getElementById('igOnlyOk').checked;
+  const cells=POSTS
+    .filter(p=>{const fmt=(p.data||{}).format; return fmt==='post'||fmt==='carrusel';})
+    .filter(p=>p.estado_visual!=='descartado')
+    .filter(p=>!onlyOk||p.estado_visual==='aprobado')
+    .filter(p=>p.slot_fecha&&(p.archivos||[]).length)
+    .sort((a,b)=>b.slot_fecha.localeCompare(a.slot_fecha));
+  document.getElementById('igGrid').innerHTML=cells.map(p=>{
+    const st=p.estado_visual==='aprobado'?'ok':'pend';
+    return `<div class="cell ${st==='pend'?'pend':''}" title="${p.id} · ${p.slot_fecha}">
+      <img src="${p.archivos[0]}" loading="lazy">
+      ${(p.data||{}).format==='carrusel'?'<span class="car">▣</span>':''}
+      <span class="st ${st}"></span></div>`;
+  }).join('');
+}
+load();
+</script>
+</body>
+</html>
