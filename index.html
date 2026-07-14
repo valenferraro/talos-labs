@@ -129,6 +129,10 @@
 
   footer{border-top:1px solid rgba(255,255,255,.08);padding:34px 0;color:var(--muted);font-size:13px}
   .footin{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px}
+  .socials{display:flex;gap:10px}
+  .socials a{display:flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:50%;background:var(--glassbg);border:var(--glassbd);color:var(--muted);transition:color .15s,transform .15s}
+  .socials a:hover{color:var(--g1);transform:translateY(-2px)}
+  .socials .ic{width:19px;height:19px}
 
   @media(max-width:880px){
     .wrap{padding:0 22px}
@@ -176,7 +180,7 @@
     </div>
     <div style="display:flex;align-items:center;gap:14px">
       <button id="langToggle" aria-label="Switch language" style="background:none;border:1px solid rgba(255,255,255,.25);color:var(--text);font-family:inherit;font-size:13px;font-weight:700;padding:7px 13px;border-radius:100px;cursor:pointer;letter-spacing:1px">EN</button>
-      <a href="https://wa.me/5491134234481?text=Hola,%20quiero%20mi%20diagn%C3%B3stico%20gratis" target="_blank" rel="noopener" class="btn" data-en='Free assessment'>Diagnóstico gratis</a>
+      <a href="https://wa.me/5491138815455?text=Hola,%20quiero%20mi%20diagn%C3%B3stico%20gratis" target="_blank" rel="noopener" class="btn" data-en='Free assessment'>Diagnóstico gratis</a>
     </div>
   </div>
 </nav>
@@ -191,7 +195,7 @@
       <h1 data-en='Less work.<br><span class="grad">More profit.</span>'>Menos trabajo.<br><span class="grad">Más rentabilidad.</span></h1>
       <p class="sub" data-en='We automate the repetitive tasks that drain your time and money, so you can focus on growing your business.'>Automatizamos las tareas repetitivas que te roban tiempo y dinero para que puedas enfocarte en hacer crecer tu negocio.</p>
       <div class="hero-cta">
-        <a href="https://wa.me/5491134234481?text=Hola,%20quiero%20mi%20diagn%C3%B3stico%20gratis" target="_blank" rel="noopener" class="btn btn-lg" data-en='Get my assessment →'>Quiero mi diagnóstico →</a>
+        <a href="https://wa.me/5491138815455?text=Hola,%20quiero%20mi%20diagn%C3%B3stico%20gratis" target="_blank" rel="noopener" class="btn btn-lg" data-en='Get my assessment →'>Quiero mi diagnóstico →</a>
         <a href="#solucion" class="ghost" data-en='See how it works'>Ver cómo funciona</a>
       </div>
     </div>
@@ -346,13 +350,21 @@
     <div class="kicker" style="text-align:center" data-en='Start risk-free'>Empezá sin riesgo</div>
     <h2 data-en='Free assessment.<br>You keep the plan <span class="grad">either way.</span>'>Diagnóstico gratis.<br>Te quedás con el plan <span class="grad">igual.</span></h2>
     <p class="lead" data-en='In one meeting we tell you exactly what to automate and how much you will save. If you do not move forward, you keep the report at no cost. <strong style="color:#fff">You have nothing to lose.</strong>'>En una reunión te decimos exactamente qué automatizar y cuánto vas a ahorrar. Si no avanzás, te llevás el informe sin pagar nada. <strong style="color:#fff">No tenés nada que perder.</strong></p>
-    <a href="https://wa.me/5491134234481?text=Hola,%20quiero%20mi%20diagn%C3%B3stico%20gratis" target="_blank" rel="noopener" class="btn btn-lg" data-en='Get my assessment →'>Quiero mi diagnóstico →</a>
+    <a href="https://wa.me/5491138815455?text=Hola,%20quiero%20mi%20diagn%C3%B3stico%20gratis" target="_blank" rel="noopener" class="btn btn-lg" data-en='Get my assessment →'>Quiero mi diagnóstico →</a>
   </div>
 </section>
 
 <footer>
   <div class="wrap footin">
     <div class="logo" style="font-size:18px;letter-spacing:3px"><img src="assets/logo.png" class="mk-logo" style="height:28px" alt="">TALOS</div>
+    <div class="socials">
+      <a href="https://instagram.com/ai.talos" target="_blank" rel="noopener" aria-label="Instagram">
+        <svg class="ic" viewBox="0 0 24 24"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5"/><circle cx="12" cy="12" r="4.3"/><circle cx="17.6" cy="6.4" r=".9" fill="currentColor" stroke="none"/></svg>
+      </a>
+      <a href="https://wa.me/5491138815455" target="_blank" rel="noopener" aria-label="WhatsApp">
+        <svg class="ic" viewBox="0 0 24 24"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4c-1.4-.1-2.7-.5-3.9-1.2L3 21l1.1-5A8.4 8.4 0 1 1 21 11.5z"/><path d="M8.8 9.2c0 3 2.9 6 6 6 .6 0 1.2-.4 1.4-1l.2-.7c.1-.4-.1-.8-.5-1l-1.4-.6c-.3-.1-.7 0-.9.2l-.4.4a5.4 5.4 0 0 1-2.7-2.7l.4-.4c.3-.2.4-.6.2-.9l-.6-1.4c-.2-.4-.6-.6-1-.5l-.7.2c-.6.2-1 .8-1 1.4z"/></svg>
+      </a>
+    </div>
     <div data-en='AI process automation — LATAM &amp; USA'>Automatización de procesos con IA — LATAM</div>
   </div>
 </footer>
