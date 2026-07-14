@@ -11,8 +11,16 @@
 // Necesita en Vercel: CRON_SECRET y META_TOKEN (token del dashboard de la app, API de Instagram
 // con Instagram Login). IG_USER_ID es opcional: si falta se deriva de /me con el token.
 // Sin credenciales Meta responde ok:false y no toca nada (queda "en seco" hasta el setup).
+//
+// TIKTOK (solo reels): si hay TIKTOK_CLIENT_KEY/TIKTOK_CLIENT_SECRET en Vercel Y la cuenta está
+// conectada (token en contenido_tokens, se conecta una vez en /api/tiktok/oauth), cada reel se
+// publica ADEMÁS en TikTok (Content Posting API, FILE_UPLOAD: se baja el mp4 del Blob y se sube).
+// Estado por red en publish_result.redes → si una red falla no se duplica la otra al reintentar.
+// OJO: hasta que TikTok audite la app, los posts salen SELF_ONLY (privados). Cuando apruebe,
+// setear TIKTOK_PRIVACY=PUBLIC_TO_EVERYONE en Vercel.
 
 const GRAPH = process.env.META_GRAPH_BASE || "https://graph.instagram.com/v23.0";
+const TIKTOK = "https://open.tiktokapis.com/v2";
 const MAX_POR_CORRIDA = 3; // válvula: nunca más de 3 publicaciones por corrida
 
 async function graph(pathname, params) {
@@ -80,6 +88,84 @@ async function publicar(p) {
   return mediaId;
 }
 
+// ——— TikTok (Content Posting API) ———
+
+// fila de token en Postgres; null = TikTok no configurado/conectado → los reels van solo a IG
+async function tiktokFila(sql) {
+  if (!process.env.TIKTOK_CLIENT_KEY || !process.env.TIKTOK_CLIENT_SECRET) return null;
+  try {
+    const { rows } = await sql`SELECT access_token, refresh_token, expira_at FROM contenido_tokens WHERE proveedor = 'tiktok'`;
+    return rows[0] || null;
+  } catch { return null; } // la tabla la crea /api/tiktok/oauth al conectar
+}
+
+// el access_token de TikTok dura 24 h → si venció o está por vencer se refresca solo
+// (el refresh_token dura ~1 año y va rotando; queda siempre el último en la tabla)
+async function tiktokToken(sql) {
+  const fila = await tiktokFila(sql);
+  if (!fila) throw new Error("TikTok sin conectar (entrar a /api/tiktok/oauth)");
+  const vence = fila.expira_at ? new Date(fila.expira_at).getTime() : 0;
+  if (vence - Date.now() > 10 * 60 * 1000) return fila.access_token;
+  const body = new URLSearchParams({
+    client_key: process.env.TIKTOK_CLIENT_KEY, client_secret: process.env.TIKTOK_CLIENT_SECRET,
+    grant_type: "refresh_token", refresh_token: fila.refresh_token,
+  });
+  const r = await fetch(`${TIKTOK}/oauth/token/`, {
+    method: "POST", headers: { "content-type": "application/x-www-form-urlencoded" }, body: body.toString(),
+  });
+  const json = await r.json();
+  if (!r.ok || json.error) throw new Error(`refresh TikTok: ${json.error_description || JSON.stringify(json)}`);
+  const expira = new Date(Date.now() + (json.expires_in || 86400) * 1000).toISOString();
+  await sql`UPDATE contenido_tokens SET access_token = ${json.access_token},
+    refresh_token = ${json.refresh_token || fila.refresh_token}, expira_at = ${expira}, updated_at = now()
+    WHERE proveedor = 'tiktok'`;
+  return json.access_token;
+}
+
+async function publicarTikTok(p, sql) {
+  const url = (p.archivos || [])[0];
+  if (!url) throw new Error("reel sin mp4");
+  const token = await tiktokToken(sql);
+  const vid = await fetch(url);
+  if (!vid.ok) throw new Error(`no pude bajar el mp4 del Blob (HTTP ${vid.status})`);
+  const buf = Buffer.from(await vid.arrayBuffer());
+  if (buf.length > 60 * 1024 * 1024) throw new Error("mp4 >60MB: falta subida multi-chunk");
+  const init = await fetch(`${TIKTOK}/post/publish/video/init/`, {
+    method: "POST", headers: { authorization: `Bearer ${token}`, "content-type": "application/json" },
+    body: JSON.stringify({
+      post_info: {
+        title: (p.caption || "").slice(0, 2200),
+        privacy_level: process.env.TIKTOK_PRIVACY || "SELF_ONLY",
+      },
+      source_info: { source: "FILE_UPLOAD", video_size: buf.length, chunk_size: buf.length, total_chunk_count: 1 },
+    }),
+  });
+  const initJson = await init.json();
+  if (!init.ok || (initJson.error && initJson.error.code !== "ok")) {
+    throw new Error(`init TikTok: ${JSON.stringify(initJson.error || initJson)}`);
+  }
+  const { publish_id, upload_url } = initJson.data;
+  const up = await fetch(upload_url, {
+    method: "PUT",
+    headers: { "content-type": "video/mp4", "content-range": `bytes 0-${buf.length - 1}/${buf.length}` },
+    body: buf,
+  });
+  if (!up.ok) throw new Error(`upload TikTok: HTTP ${up.status}`);
+  // la subida ya está hecha → aunque el procesamiento no termine en la espera, NO se reintenta
+  for (let i = 0; i < 20; i++) {
+    const st = await fetch(`${TIKTOK}/post/publish/status/fetch/`, {
+      method: "POST", headers: { authorization: `Bearer ${token}`, "content-type": "application/json" },
+      body: JSON.stringify({ publish_id }),
+    });
+    const stJson = await st.json();
+    const status = stJson.data && stJson.data.status;
+    if (status === "PUBLISH_COMPLETE") return publish_id;
+    if (status === "FAILED") throw new Error(`TikTok FAILED: ${(stJson.data && stJson.data.fail_reason) || "?"}`);
+    await new Promise(r => setTimeout(r, 3000));
+  }
+  return publish_id; // sigue procesando del lado de TikTok; termina solo
+}
+
 // fecha/hora actuales en Argentina (los slots del calendario están en hora AR)
 function ahoraAR() {
   const parts = new Intl.DateTimeFormat("en-CA", {
@@ -105,25 +191,41 @@ export default async function handler(req, res) {
 
   const { fecha, hora } = ahoraAR();
   const { rows: due } = await sql`
-    SELECT id, data, archivos, caption, slot_fecha, slot_hora FROM contenido_posts
+    SELECT id, data, archivos, caption, slot_fecha, slot_hora, publish_result FROM contenido_posts
     WHERE estado_visual = 'aprobado'
       AND slot_fecha IS NOT NULL
       AND (slot_fecha < ${fecha} OR (slot_fecha = ${fecha} AND coalesce(slot_hora, '00:00') <= ${hora}))
     ORDER BY slot_fecha ASC, slot_hora ASC
     LIMIT ${MAX_POR_CORRIDA}`;
 
+  const ttListo = !!(await tiktokFila(sql)); // TikTok conectado → los reels van a IG + TikTok
+
   const resultado = [];
   for (const p of due) {
-    try {
-      const mediaId = await publicar(p);
+    const redes = ["instagram"];
+    if ((p.data || {}).format === "reel" && ttListo) redes.push("tiktok");
+    // lo ya publicado en corridas anteriores no se repite (estado por red)
+    const hecho = (p.publish_result && p.publish_result.redes) || {};
+    const errores = {};
+    for (const red of redes) {
+      if (hecho[red]) continue;
+      try {
+        if (red === "instagram") hecho.instagram = { media_id: await publicar(p) };
+        else hecho.tiktok = { publish_id: await publicarTikTok(p, sql) };
+      } catch (e) {
+        errores[red] = String(e.message || e);
+      }
+    }
+    const completo = redes.every(r => hecho[r]);
+    if (completo) {
       await sql`UPDATE contenido_posts SET estado_visual = 'publicado', published_at = now(),
-        publish_result = ${JSON.stringify({ media_id: mediaId })}, updated_at = now() WHERE id = ${p.id}`;
-      resultado.push({ id: p.id, ok: true, media_id: mediaId });
-    } catch (e) {
-      // queda 'aprobado' → se reintenta en la próxima corrida; el error queda registrado
-      await sql`UPDATE contenido_posts SET publish_result = ${JSON.stringify({ error: String(e.message || e), fecha })},
+        publish_result = ${JSON.stringify({ redes: hecho })}, updated_at = now() WHERE id = ${p.id}`;
+      resultado.push({ id: p.id, ok: true, redes: hecho });
+    } else {
+      // queda 'aprobado' → la próxima corrida reintenta SOLO las redes que faltan
+      await sql`UPDATE contenido_posts SET publish_result = ${JSON.stringify({ redes: hecho, error: errores, fecha })},
         updated_at = now() WHERE id = ${p.id}`;
-      resultado.push({ id: p.id, ok: false, error: String(e.message || e) });
+      resultado.push({ id: p.id, ok: false, redes: hecho, error: errores });
     }
   }
   res.status(200).json({ ok: true, ahora: `${fecha} ${hora} AR`, publicadas: resultado });
