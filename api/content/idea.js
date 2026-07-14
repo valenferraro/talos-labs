@@ -1,5 +1,6 @@
 // /api/content/idea — cola de generación remota (el "chatbot" de la galería).
-// POST {tipo: "idea"|"tirada", prompt?, assets?} → encola un job en Postgres.
+// POST {tipo: "idea"|"tirada"|"reel", prompt?, assets?} → encola un job en Postgres.
+// "reel" con prompt = reel desde esa idea; sin prompt = reel autónomo (flujo H).
 // GET → últimos 10 jobs (para la barra de estado de la galería).
 // La generación NO corre acá: corre en la PC de Valen (contenido-bulk/watcher.js, claude -p
 // headless con la suscripción, $0 API). Protegido por Basic Auth (middleware).
@@ -24,7 +25,7 @@ export default async function handler(req, res) {
     }
     if (req.method === "POST") {
       const { tipo, prompt, assets } = req.body || {};
-      if (!["idea", "tirada"].includes(tipo)) return res.status(400).json({ error: "tipo inválido" });
+      if (!["idea", "tirada", "reel"].includes(tipo)) return res.status(400).json({ error: "tipo inválido" });
       if (tipo === "idea" && !(prompt || "").trim()) return res.status(400).json({ error: "falta la idea" });
       const { rows } = await sql`INSERT INTO contenido_jobs (tipo, prompt, assets)
         VALUES (${tipo}, ${(prompt || "").trim()}, ${!!assets}) RETURNING id`;

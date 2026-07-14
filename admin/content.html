@@ -66,6 +66,11 @@
   .empty{color:var(--mut);font-size:13px}
   .note{margin-top:40px;color:var(--mut);font-size:12px;line-height:1.6}
 
+  /* ── pestañas Posts / Videos ── */
+  .tabs{display:flex;gap:8px;margin:0 0 20px}
+  .tab{padding:12px 26px;border-radius:12px;border:1px solid var(--line);background:var(--panel);color:var(--mut);font-weight:700;font-size:14px;font-family:'Inter';cursor:pointer}
+  .tab.on{background:var(--grad);color:#051018;border-color:transparent}
+
   .gen{display:flex;gap:10px;align-items:center;flex-wrap:wrap;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:14px 18px;margin-bottom:22px}
   .gen input[type=text]{flex:1;min-width:220px;background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:10px;color:var(--txt);font-family:'Inter';font-size:13.5px;padding:11px 14px;outline:none}
   .gen input[type=text]:focus{border-color:var(--g2)}
@@ -109,10 +114,16 @@
   <input type="text" id="ideaTxt" placeholder="💡 Tirale una idea a la máquina (ej: pieza sobre el costo de contestar tarde los DMs)…" maxlength="400">
   <button class="btn-gen" onclick="genIdea()">💡 Generar</button>
   <button class="btn-gen alt" onclick="genTirada()">🎲 Tirada ×6</button>
+  <button class="btn-gen alt" onclick="genReel()">🎬 Generar reel</button>
   <label><input type="checkbox" id="genAssets"> puede gastar créditos en assets (tope 60)</label>
   <div class="jobs" id="jobs"></div>
 </div>
+<div class="tabs">
+  <button class="tab on" id="tabPosts" onclick="setTab('posts')">🖼 Posts</button>
+  <button class="tab" id="tabVideos" onclick="setTab('videos')">🎬 Videos</button>
+</div>
 <div class="grid" id="grid"></div>
+<div class="empty" id="emptyVid" style="display:none">No hay videos todavía — generá uno con 🎬 Generar reel (lo produce la PC de Valen y aparece acá en el próximo sync).</div>
 <h2>Descartadas</h2>
 <div class="grid" id="gridOut"></div>
 <div class="empty" id="emptyOut" style="display:none">Nada descartado todavía.</div>
@@ -133,8 +144,16 @@ lee Postgres + Blob. Para subir piezas nuevas o bajar estas decisiones al calend
 
 <script>
 const DIAS=['DOM','LUN','MAR','MIÉ','JUE','VIE','SÁB'], MESES=['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
-const FMT={post:'Feed', carrusel:'Carrusel', story:'Story'};
-let POSTS=[];
+const FMT={post:'Feed', carrusel:'Carrusel', story:'Story', reel:'Reel'};
+let POSTS=[], TAB='posts';
+
+const esReelP=p=>((p.data||{}).format==='reel')||((((p.archivos||[])[0])||'').endsWith('.mp4'));
+function setTab(t){
+  TAB=t;
+  document.getElementById('tabPosts').classList.toggle('on',t==='posts');
+  document.getElementById('tabVideos').classList.toggle('on',t==='videos');
+  render();
+}
 
 function fdate(r){
   if(!r.slot_fecha) return {top:'Sin fecha', small:''};
@@ -161,8 +180,13 @@ function render(){
      <span class="chip no"><i>●</i>${no} descartadas</span>`;
   const grid=document.getElementById('grid'), out=document.getElementById('gridOut');
   grid.innerHTML=''; out.innerHTML='';
-  POSTS.forEach(p=>{ (p.estado_visual==='descartado'?out:grid).appendChild(card(p)); });
-  document.getElementById('emptyOut').style.display=no?'none':'block';
+  POSTS.forEach(p=>{
+    if((TAB==='videos')!==esReelP(p)) return; // cada pestaña muestra lo suyo (descartadas incluidas)
+    (p.estado_visual==='descartado'?out:grid).appendChild(card(p));
+  });
+  document.getElementById('emptyOut').style.display=out.children.length?'none':'block';
+  document.getElementById('emptyVid').style.display=
+    (TAB==='videos'&&!grid.children.length&&!out.children.length)?'block':'none';
 }
 function card(p){
   const d=p.data||{};
@@ -171,7 +195,7 @@ function card(p){
   div.className='card '+st;
   const f=fdate(p);
   const imgs=p.archivos||[];
-  const esReel=d.format==='reel'||(imgs[0]||'').endsWith('.mp4');
+  const esReel=esReelP(p);
   let media;
   if(esReel){
     media=`<div class="media"><video src="${imgs[0]}" ${imgs[1]?`poster="${imgs[1]}"`:''} controls preload="none" style="width:100%;display:block"></video></div>`;
@@ -244,6 +268,13 @@ async function genIdea(){
 async function genTirada(){
   await postJob({tipo:'tirada', assets:document.getElementById('genAssets').checked});
 }
+async function genReel(){
+  // con idea del campo de texto → reel sobre esa idea; vacío → reel autónomo (flujo H)
+  const txt=document.getElementById('ideaTxt').value.trim();
+  await postJob({tipo:'reel', prompt:txt});
+  document.getElementById('ideaTxt').value='';
+  setTab('videos');
+}
 async function postJob(body){
   const res=await fetch('/api/content/idea',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(body)});
   if(!res.ok){ alert('No se pudo encolar ('+res.status+')'); return; }
@@ -257,7 +288,10 @@ async function loadJobs(){
     const jobs=await res.json();
     const activos=jobs.some(j=>['pendiente','corriendo'].includes(j.estado));
     document.getElementById('jobs').innerHTML=jobs.slice(0,5).map(j=>
-      `<span class="j ${j.estado}">${JEST[j.estado]||j.estado} · ${j.tipo==='idea'?(j.prompt||'').slice(0,48):'tirada ×6'}${j.estado==='hecho'?' — corré un refresh para ver las piezas':''}</span>`).join('')
+      `<span class="j ${j.estado}">${JEST[j.estado]||j.estado} · ${
+        j.tipo==='reel'?('🎬 reel'+(j.prompt?' · '+j.prompt.slice(0,40):' autónomo')):
+        j.tipo==='idea'?(j.prompt||'').slice(0,48):'tirada ×6'
+      }${j.estado==='hecho'?' — corré un refresh para ver las piezas':''}</span>`).join('')
       +(activos?'<span class="j">la PC de Valen tiene que estar prendida con el watcher corriendo</span>':'');
     if(activos) setTimeout(()=>{loadJobs();load();},20000);
   }catch(e){}
